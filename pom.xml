@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.tomoncle</groupId>
+    <artifactId>spring-boot-config-samples</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <!--
+        tomcat-* is jar run : inherit tomcat container, start with "$ java -jar tomcat-*.jar"
+        web-*    is war run : Need external Tomcat container start project
+    -->
+    <modules>
+        <module>spring-boot-config-samples-tomcat-mail</module>
+    </modules>
+
+    <!--
+    *******************************
+    继承自spring-boot-starter-parent
+    *******************************
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.2.RELEASE</version>
+    </parent>
+
+    <!-- ************ * 开发者信息 * ************ -->
+    <developers>
+        <developer>
+            <id>tomoncle</id>
+            <name>tomoncle</name>
+            <email>tom@tomoncle.com</email>
+            <organization>tomoncle.com</organization>
+            <organizationUrl>https://www.tomoncle.com</organizationUrl>
+            <url>https://github.com/tomoncle</url>
+        </developer>
+    </developers>
+
+    <repositories>
+        <repository>
+            <!--  tomoncle's private maven repository.  -->
+            <id>tomoncle repository</id>
+            <name>tomoncle Repositories</name>
+            <url>https://github.com/tomoncle/m2/raw/master/repository/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <!--  snapshots repository.  -->
+            <id>tomoncle snapshots</id>
+            <name>tomoncle snapshots Repositories</name>
+            <url>https://github.com/tomoncle/m2/raw/master/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <!--属性版本-->
+    <properties>
+        <!-- maven compiler -->
+        <maven-compiler.version>3.8.0</maven-compiler.version>
+        <java.version>1.8</java.version>
+        <file_encoding>UTF-8</file_encoding>
+        <surefire.test.skip>true</surefire.test.skip>
+        <updateReleaseInfo>true</updateReleaseInfo>
+        <project.build.sourceEncoding>${file_encoding}</project.build.sourceEncoding>
+        <!-- spring-boot-config -->
+        <spring.boot.config.version>2.1.2</spring.boot.config.version>
+    </properties>
+
+    <!-- 启用spring-boot-config -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.tomoncle</groupId>
+                <artifactId>spring-boot-config-parent</artifactId>
+                <version>${spring.boot.config.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 插件配置 -->
+    <build>
+        <plugins>
+            <!-- compiler插件, 设定JDK版本 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <!--<version>${maven-compiler.version}</version>-->
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+            <!--测试插件-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>${surefire.test.skip}</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
