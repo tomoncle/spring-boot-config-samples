@@ -23,28 +23,38 @@ public class MajorServiceImpl extends JpaCommonServiceImpl<Major, Integer> imple
         return majorDao.andAlwaysTrue();
     }
 
+    @Transactional
     @Override
     public int deleteNotWhere() {
         return majorDao.deleteNotWhere();
     }
 
     @Override
-    public int andAlwaysFalse() {
+    public List<Major> andAlwaysFalse() {
         return majorDao.andAlwaysFalse();
     }
 
     @Override
-    public int likeIsTrue() {
+    public List<Major> likeIsTrue() {
         return majorDao.likeIsTrue();
     }
 
+    @Transactional
     @Override
     public int truncate() {
-        return majorDao.truncate();
+         majorDao.truncate();
+         return 1;
+    }
+
+    @Transactional
+    @Override
+    public int dropTable() {
+        majorDao.dropTable();
+        return 1;
     }
 
     @Override
-    public int dropTable() {
-        return majorDao.dropTable();
+    public int callProcedure() {
+        return majorDao.callProcedure();
     }
 }

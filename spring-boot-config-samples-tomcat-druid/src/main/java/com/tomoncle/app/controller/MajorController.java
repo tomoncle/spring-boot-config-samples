@@ -30,21 +30,20 @@ public class MajorController {
     }
 
     @ApiOperation(value = "禁止call调用", notes = "禁止call调用", httpMethod = "GET")
-    @GetMapping("/call")
-    public int call() {
-//        return majorService.call();
-        return 0;
+    @GetMapping("/callProcedure")
+    public int callProcedure() {
+      return majorService.callProcedure();
     }
 
     @ApiOperation(value = "禁止AND永假条件查询", notes = "禁止AND永假条件查询", httpMethod = "GET")
     @GetMapping("/andAlwaysFalse")
-    public int andAlwaysFalse() {
+    public List<Major> andAlwaysFalse() {
         return majorService.andAlwaysFalse();
     }
 
     @ApiOperation(value = "禁止AND LIKE永真条件查询", notes = "禁止AND LIKE永真条件查询", httpMethod = "GET")
     @GetMapping("/likeIsTrue")
-    public int likeIsTrue() {
+    public List<Major> likeIsTrue() {
         return majorService.likeIsTrue();
     }
 

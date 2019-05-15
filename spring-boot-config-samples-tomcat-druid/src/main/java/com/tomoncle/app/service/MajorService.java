@@ -12,11 +12,13 @@ public interface MajorService extends JpaCommonService<Major, Integer> {
 
     int deleteNotWhere();
 
-    int andAlwaysFalse();
+    List<Major> andAlwaysFalse();
 
-    int likeIsTrue();
+    List<Major> likeIsTrue();
 
     int truncate();
 
     int dropTable();
+
+    int callProcedure();
 }
