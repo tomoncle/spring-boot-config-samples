@@ -64,6 +64,7 @@
     </dependencies>
 
     <build>
+        <!--https://docs.spring.io/spring-boot/docs/current/maven-plugin/index.html-->
         <finalName>app</finalName>
         <!--jar包打包配置，引入配置文件-->
         <resources>
@@ -105,6 +106,10 @@
                 </executions>
                 <configuration>
                     <mainClass>com.tomoncle.app.Application</mainClass>
+                    <!--<layout>ZIP</layout>-->
+                    <!--<jvmArguments>-->
+                        <!---Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
+                    <!--</jvmArguments>-->
                 </configuration>
             </plugin>
         </plugins>
