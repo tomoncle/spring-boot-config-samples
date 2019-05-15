@@ -16,6 +16,7 @@
     <modules>
         <module>spring-boot-config-samples-tomcat-mail</module>
         <module>spring-boot-config-samples-tomcat-autoscan</module>
+        <module>spring-boot-config-samples-tomcat-druid</module>
     </modules>
 
     <!--
@@ -93,6 +94,19 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+
+    <!--公共依赖-->
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <!--provided表明该包只在编译和测试的时候用-->
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
 
     <!-- 插件配置 -->
     <build>
