@@ -17,6 +17,7 @@
         <module>spring-boot-config-samples-tomcat-mail</module>
         <module>spring-boot-config-samples-tomcat-autoscan</module>
         <module>spring-boot-config-samples-tomcat-druid</module>
+        <module>spring-boot-config-samples-tomcat-zuul</module>
     </modules>
 
     <!--
