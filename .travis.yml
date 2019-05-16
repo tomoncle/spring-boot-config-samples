@@ -7,7 +7,7 @@ dist:
 script:
   - export JDK8_HOME=$(jdk_switcher home oraclejdk8)
   - export JDK9_HOME=/usr/lib/jvm/java-9-oracle
-  - test -d "${JDK8_HOME}" || export JDK8_HOME=$(jdk_switcher home oraclejdk8)
+  - test -d "${JDK8_HOME}" || export JDK8_HOME=${JDK9_HOME}
 
 before_cache:
   # No sense in caching current build artifacts
@@ -27,4 +27,4 @@ matrix:
 
 install: /bin/true
 script:
-  - mvn package -Dmaven.javadoc.skip=true -V -B
+  - mvn package -Dmaven.javadoc.skip=true -V -B -e
