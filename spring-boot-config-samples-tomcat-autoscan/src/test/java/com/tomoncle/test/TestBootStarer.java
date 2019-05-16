@@ -13,8 +13,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestBootStarer {
 
     private static Logger logger = LoggerFactory.getLogger(TestBootStarer.class);
+
     @Test
-    public void testRun(){
+    public void testRun() {
         logger.info("Exit.");
     }
 }

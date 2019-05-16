@@ -42,8 +42,8 @@ public class MajorServiceImpl extends JpaCommonServiceImpl<Major, Integer> imple
     @Transactional
     @Override
     public int truncate() {
-         majorDao.truncate();
-         return 1;
+        majorDao.truncate();
+        return 1;
     }
 
     @Transactional

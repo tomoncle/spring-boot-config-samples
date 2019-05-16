@@ -7,10 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.NamedStoredProcedureQueries;
-import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureParameter;
 import java.util.List;
 
 @Repository
@@ -26,17 +22,17 @@ public interface MajorDao extends JpaCommonRepository<Major, Integer> {
     List<Major> likeIsTrue();
 
     @Modifying
-    @Query(value = "", nativeQuery = true)
+    @Query(value = "delete from Major", nativeQuery = true)
     int deleteNotWhere();
 
     @Modifying
     @Query(value = "drop table User", nativeQuery = true)
-    void  dropTable();
+    void dropTable();
 
     @Modifying
     @Query(value = "truncate table User", nativeQuery = true)
-    void  truncate();
+    void truncate();
 
-    @Procedure(procedureName = "majorCount",outputParameterName = "major_count")
+    @Procedure(procedureName = "majorCount", outputParameterName = "major_count")
     int callProcedure();
 }

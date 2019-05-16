@@ -32,7 +32,7 @@ public class MajorController {
     @ApiOperation(value = "禁止call调用", notes = "禁止call调用", httpMethod = "GET")
     @GetMapping("/callProcedure")
     public int callProcedure() {
-      return majorService.callProcedure();
+        return majorService.callProcedure();
     }
 
     @ApiOperation(value = "禁止AND永假条件查询", notes = "禁止AND永假条件查询", httpMethod = "GET")

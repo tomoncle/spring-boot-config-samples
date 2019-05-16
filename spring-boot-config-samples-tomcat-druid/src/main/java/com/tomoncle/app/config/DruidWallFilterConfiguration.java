@@ -43,14 +43,14 @@ public class DruidWallFilterConfiguration {
 
     /**
      * 自定义配置的防火墙:
-     *      这里的name = "wallFilter"在配置文件中配置如下:
-     *      druid.datasource.proxyFilters=wallFilter
-     *      druid.datasource.filters=stat,slf4j
-     *
+     * 这里的name = "wallFilter"在配置文件中配置如下:
+     * druid.datasource.proxyFilters=wallFilter
+     * druid.datasource.filters=stat,slf4j
+     * <p>
      * 默认的防火墙配置是,只配置filters:
-     *　　　　druid.datasource.filters=wall,stat,slf4j
+     * 　　　　druid.datasource.filters=wall,stat,slf4j
      *
-     * @param wallConfig　防火墙配置
+     * @param wallConfig 　防火墙配置
      * @return WallFilter
      */
     @Bean(name = "wallFilter")
