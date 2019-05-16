@@ -31,7 +31,7 @@ public class DynamicProxyController {
      */
     @PutMapping
     public boolean update(@RequestParam("path") String path, @RequestParam("url") String url){
-        storageRouteMapper.addOrEdit(String.format("/%s/**",path), url);
+        storageRouteMapper.addOrReplace(String.format("/%s/**",path), url);
         configuration.refresh();
         return true;
     }
