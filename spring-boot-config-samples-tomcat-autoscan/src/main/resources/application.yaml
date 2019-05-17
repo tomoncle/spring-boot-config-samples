@@ -1,2 +1,9 @@
 server:
   port: 8090
+
+logging:
+  level:
+    com:
+      tomoncle:
+        config:
+          springboot: DEBUG

@@ -1,6 +1,5 @@
 package com.tomoncle.app;
 
-import com.tomoncle.config.springboot.EnableSpringBootConfig;
 import com.tomoncle.config.springboot.mail.SmtpMailSender;
 import com.tomoncle.config.springboot.mail.ThymeleafConfiguration;
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +22,7 @@ import java.util.Map;
  * @since : 19-5-14 下午9:47
  */
 @RestController
-@SpringBootApplication(scanBasePackageClasses = EnableSpringBootConfig.class)
+@SpringBootApplication
 public class MailApplication {
     private static Logger logger = LogManager.getLogger(MailApplication.class);
 
