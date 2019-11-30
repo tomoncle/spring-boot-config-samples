@@ -18,6 +18,7 @@
         <module>spring-boot-config-samples-tomcat-autoscan</module>
         <module>spring-boot-config-samples-tomcat-druid</module>
         <module>spring-boot-config-samples-tomcat-zuul</module>
+        <module>spring-boot-config-samples-tomoncle-monitor</module>
     </modules>
 
     <!--
@@ -81,6 +82,7 @@
         <project.build.sourceEncoding>${file_encoding}</project.build.sourceEncoding>
         <!-- spring-boot-config -->
         <spring.boot.config.version>2.1.2</spring.boot.config.version>
+
     </properties>
 
     <!-- 启用spring-boot-config -->

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>spring-boot-config-samples</artifactId>
+        <groupId>com.tomoncle</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>spring-boot-config-samples-tomoncle-monitor</artifactId>
+
+    <properties>
+        <!--spring-boot监控插件-->
+        <spring-boot-admin.version>2.1.2</spring-boot-admin.version>
+        <spring-boot-admin.server.ui.login.version>1.5.7</spring-boot-admin.server.ui.login.version>
+        <spring-boot-admin.server.ui.hystrix.version>1.5.7</spring-boot-admin.server.ui.hystrix.version>
+        <spring-boot-admin.server.ui.activiti.version>1.5.7</spring-boot-admin.server.ui.activiti.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.tomoncle</groupId>
+            <artifactId>spring-boot-config-autoscan</artifactId>
+        </dependency>
+        <!--################ 服务端配置 ################-->
+        <!--
+            作为服务端时，启用以下配置
+            针对Actuator接口进行UI美化封装的监控工具
+            https://github.com/codecentric/spring-boot-admin
+        -->
+        <!-- https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server</artifactId>
+            <version>${spring-boot-admin.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server-ui</artifactId>
+            <version>${spring-boot-admin.version}</version>
+        </dependency>
+
+        <!--################ spring-boot-admin Plugins ################-->
+        <!--
+        https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui-hystrix
+        hystrix-dashboard
+            加入该依赖需要配置
+            Add the /hystrix.stream to the proxified endpoints
+            spring.boot.admin.routes.endpoints＝......,loggers,auditevents,hystrix.stream
+        -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server-ui-hystrix</artifactId>
+            <version>${spring-boot-admin.server.ui.hystrix.version}</version>
+        </dependency>
+        <!--
+        https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui-activiti
+        Activiti UI Module
+            加入该依赖需要配置
+            spring.boot.admin.routes.endpoints＝......,loggers,activiti
+        -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server-ui-activiti</artifactId>
+            <version>${spring-boot-admin.server.ui.activiti.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!--https://docs.spring.io/spring-boot/docs/current/maven-plugin/index.html-->
+        <finalName>springboot-monitor</finalName>
+        <!--jar包打包配置，引入配置文件-->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.yaml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <!--jar包打包配置-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--这个要使用parent.RELEASE版本-->
+                <!--
+                因为没有继承了spring-boot-starter-parent这个parent POM（详见13.2.2. https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-maven-without-a-parent）
+                导致spring-boot-maven-plugin的配置项丢失，
+                使得打包后的jar中的MANIFEST.MF文件缺少Main-Class。
+                所以需要额外配置以下executions标签，
+                如果继承了spring-boot-starter-parent这个parent POM，
+                则不需要配置以下executions标签，只需要配置该plugin就行
+                -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>com.tomoncle.springboot.Application</mainClass>
+                    <!--<layout>ZIP</layout>-->
+                    <!--<jvmArguments>-->
+                    <!---Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
+                    <!--</jvmArguments>-->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

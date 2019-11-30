@@ -2,10 +2,8 @@
 *.class
 .idea/
 *.iml
-
+HOME_IS_UNDEFINED/
 # Log file
-*.log
-
 # BlueJ files
 *.ctxt
 
