@@ -11,61 +11,14 @@
 
     <artifactId>spring-boot-config-samples-tomoncle-monitor</artifactId>
 
-    <properties>
-        <!--spring-boot监控插件-->
-        <spring-boot-admin.version>2.1.2</spring-boot-admin.version>
-        <spring-boot-admin.server.ui.login.version>1.5.7</spring-boot-admin.server.ui.login.version>
-        <spring-boot-admin.server.ui.hystrix.version>1.5.7</spring-boot-admin.server.ui.hystrix.version>
-        <spring-boot-admin.server.ui.activiti.version>1.5.7</spring-boot-admin.server.ui.activiti.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.tomoncle</groupId>
             <artifactId>spring-boot-config-autoscan</artifactId>
         </dependency>
-        <!--################ 服务端配置 ################-->
-        <!--
-            作为服务端时，启用以下配置
-            针对Actuator接口进行UI美化封装的监控工具
-            https://github.com/codecentric/spring-boot-admin
-        -->
-        <!-- https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server -->
         <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-server</artifactId>
-            <version>${spring-boot-admin.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui -->
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-server-ui</artifactId>
-            <version>${spring-boot-admin.version}</version>
-        </dependency>
-
-        <!--################ spring-boot-admin Plugins ################-->
-        <!--
-        https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui-hystrix
-        hystrix-dashboard
-            加入该依赖需要配置
-            Add the /hystrix.stream to the proxified endpoints
-            spring.boot.admin.routes.endpoints＝......,loggers,auditevents,hystrix.stream
-        -->
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-server-ui-hystrix</artifactId>
-            <version>${spring-boot-admin.server.ui.hystrix.version}</version>
-        </dependency>
-        <!--
-        https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui-activiti
-        Activiti UI Module
-            加入该依赖需要配置
-            spring.boot.admin.routes.endpoints＝......,loggers,activiti
-        -->
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-server-ui-activiti</artifactId>
-            <version>${spring-boot-admin.server.ui.activiti.version}</version>
+            <groupId>com.tomoncle</groupId>
+            <artifactId>spring-boot-config-monitor-server</artifactId>
         </dependency>
     </dependencies>
 

@@ -18,7 +18,7 @@
         <module>spring-boot-config-samples-tomcat-autoscan</module>
         <module>spring-boot-config-samples-tomcat-druid</module>
         <module>spring-boot-config-samples-tomcat-zuul</module>
-        <module>spring-boot-config-samples-tomoncle-monitor</module>
+        <module>spring-boot-config-samples-tomcat-monitor</module>
     </modules>
 
     <!--
