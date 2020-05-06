@@ -41,9 +41,7 @@ public class HtmlDataController {
     private static final Logger logger = LoggerFactory.getLogger(HtmlDataController.class);
 
     private final HtmlDataRepository htmlDataRepository;
-
     private final HtmlDataUnblockRepository analysisResultHistoryRepository;
-
     private final StringRedisTemplate stringRedisTemplate;
 
     public HtmlDataController(HtmlDataRepository htmlDataRepository,
