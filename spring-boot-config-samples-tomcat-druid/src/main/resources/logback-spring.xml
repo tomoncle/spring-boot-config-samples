@@ -16,7 +16,7 @@
 
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <!--<property name="log_dir" value="d://data//logs//${system.key}" />-->
-    <property name="log_dir" value="${HOME}/logs/spring-boot-config-samples-tomcat-druid" />
+    <property name="log_dir" value="${HOME:-/var}/log/spring-boot-config-samples-tomcat-druid"/>
     <property name="maxHistory" value="30" />
     <!--<property name="maxFileSize" value="50MB" />-->
     <!--<property name="totalSizeCap" value="1GB" />-->
@@ -35,7 +35,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">          
-            <level>INFO</level>   
+            <level>debug</level>   
         </filter>
         <encoder>       
             <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>

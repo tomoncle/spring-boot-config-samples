@@ -16,13 +16,13 @@
 
 package com.tomoncle.test;
 
-import java.util.Date;
+import java.time.Duration;
 
 /**
  * @author tomoncle
  */
 public class TestZ {
     public static void main(String[] args) {
-        System.out.println(new Date().getTime());
+        System.out.println(Duration.ofMinutes(1).toMillis());
     }
 }
