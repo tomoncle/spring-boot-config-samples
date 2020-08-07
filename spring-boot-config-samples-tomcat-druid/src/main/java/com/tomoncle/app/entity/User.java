@@ -18,6 +18,7 @@ package com.tomoncle.app.entity;
 
 import lombok.Data;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -32,5 +33,9 @@ public class User {
     private String username;
 
     private String password;
+
+    @Embedded
+    private Card Card;
+
 
 }

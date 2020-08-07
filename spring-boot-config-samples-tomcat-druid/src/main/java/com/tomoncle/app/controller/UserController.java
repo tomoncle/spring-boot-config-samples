@@ -16,11 +16,14 @@
 
 package com.tomoncle.app.controller;
 
+import com.tomoncle.app.entity.Card;
 import com.tomoncle.app.entity.User;
 import com.tomoncle.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,5 +39,17 @@ public class UserController {
     public List<User> list() {
         return userService.findAll();
     }
+
+    @GetMapping("/page")
+    public Page<User> page(@RequestParam("backName") String backName,
+                           @RequestParam(value = "page", defaultValue = "1") int page,
+                           @RequestParam(value = "rows", defaultValue = "10") int rows) {
+        User user = new User();
+        Card card = new Card();
+        card.setBackName(backName);
+        user.setCard(card);
+        return userService.users(user, page, rows);
+    }
+
 
 }

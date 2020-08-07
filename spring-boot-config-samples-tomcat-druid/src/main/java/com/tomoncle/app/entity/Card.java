@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package com.tomoncle.app.service;
+package com.tomoncle.app.entity;
 
-import com.tomoncle.app.entity.User;
-import com.tomoncle.config.springboot.jpa.service.JpaCommonService;
-import org.springframework.data.domain.Page;
+import lombok.Data;
 
-public interface UserService extends JpaCommonService<User, Integer> {
+import javax.persistence.Embeddable;
 
-    Page<User> users(User user, int page, int rows);
-
+/**
+ * @author tomoncle
+ */
+@Data
+@Embeddable
+public class Card {
+    private String num;
+    private String backName;
+    private Long time;
 }
