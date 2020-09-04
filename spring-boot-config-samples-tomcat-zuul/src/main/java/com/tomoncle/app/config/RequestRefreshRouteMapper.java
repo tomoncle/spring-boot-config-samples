@@ -16,9 +16,10 @@
 
 package com.tomoncle.app.config;
 
-import com.tomoncle.config.springboot.zuul.MemoryStorageRouteMapper;
-import com.tomoncle.config.springboot.zuul.config.RefreshRouteConfiguration;
-import com.tomoncle.config.springboot.zuul.mapper.RefreshRouteMapper;
+
+import com.tomoncle.config.springboot.zuul.config.RouteUpdater;
+import com.tomoncle.config.springboot.zuul.mapper.IRouteMapper;
+import com.tomoncle.config.springboot.zuul.mapper.MemoryStorageRouteMapper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,7 +38,7 @@ import java.util.Map;
  * http://127.0.0.1:8090/proxy/static/?region=test 返回 test 环境的服务
  */
 @Component
-public class RequestRefreshRouteMapper implements RefreshRouteMapper {
+public class RequestRefreshRouteMapper implements IRouteMapper {
     private static Logger logger = LogManager.getLogger(RequestRefreshRouteMapper.class);
 
     private static final Map<String, String> LOCAL_DB = new HashMap<>();
@@ -52,7 +53,7 @@ public class RequestRefreshRouteMapper implements RefreshRouteMapper {
     MemoryStorageRouteMapper storageRouteMapper;
 
     @Autowired
-    RefreshRouteConfiguration configuration;
+    RouteUpdater routeUpdater;
 
     @Override
     public void refresh(ServletRequest servletRequest, ServletResponse servletResponse) {
@@ -65,7 +66,7 @@ public class RequestRefreshRouteMapper implements RefreshRouteMapper {
                 final String url = LOCAL_DB.get(region);
                 if (StringUtils.isNotEmpty(url)) {
                     storageRouteMapper.addOrReplace("/static/**", url);
-                    configuration.refresh();
+                    routeUpdater.refresh();
                 }
             }
         }

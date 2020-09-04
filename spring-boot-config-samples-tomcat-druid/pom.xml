@@ -67,6 +67,14 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.37</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.googlecode.log4jdbc/log4jdbc
+          show jpa sql parameters
+        -->
+        <dependency>
+            <groupId>com.googlecode.log4jdbc</groupId>
+            <artifactId>log4jdbc</artifactId>
+            <version>1.2</version>
+        </dependency>
 
         <!--Test-->
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->

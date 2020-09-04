@@ -16,8 +16,8 @@
 
 package com.tomoncle.app.api;
 
-import com.tomoncle.config.springboot.zuul.MemoryStorageRouteMapper;
-import com.tomoncle.config.springboot.zuul.config.RefreshRouteConfiguration;
+import com.tomoncle.config.springboot.zuul.config.RouteUpdater;
+import com.tomoncle.config.springboot.zuul.mapper.MemoryStorageRouteMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,11 +34,11 @@ public class DynamicProxyController {
     MemoryStorageRouteMapper storageRouteMapper;
 
     @Autowired
-    RefreshRouteConfiguration configuration;
+    RouteUpdater routeUpdater;
 
     @PostMapping
     public String refresh(){
-        configuration.refresh();
+        routeUpdater.refresh();
         return "ok!";
     }
 
@@ -51,7 +51,7 @@ public class DynamicProxyController {
     @PutMapping
     public boolean update(@RequestParam("path") String path, @RequestParam("url") String url){
         storageRouteMapper.addOrReplace(String.format("/%s/**",path), url);
-        configuration.refresh();
+        routeUpdater.refresh();
         return true;
     }
 
