@@ -35,6 +35,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
+
     @GetMapping
     public List<User> list() {
         return userService.findAll();
