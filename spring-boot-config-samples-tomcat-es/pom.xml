@@ -57,6 +57,10 @@
             <groupId>com.tomoncle</groupId>
             <artifactId>spring-boot-config-redis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.tomoncle</groupId>
+            <artifactId>spring-boot-config-elasticsearch</artifactId>
+        </dependency>
         <!--   ########## 测试  ##########  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
