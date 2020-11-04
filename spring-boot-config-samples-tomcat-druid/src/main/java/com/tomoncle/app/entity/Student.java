@@ -16,12 +16,15 @@
 
 package com.tomoncle.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Data
 @Entity
@@ -36,4 +39,8 @@ public class Student {
 
     @Column(name = "major_id")
     private Integer majorId;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8") // 出参格式化
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") // 入参格式化
+    private Date createTime;
 }
