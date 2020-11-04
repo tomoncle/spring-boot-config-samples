@@ -37,6 +37,7 @@
         <module>spring-boot-config-samples-tomcat-monitor</module>
         <module>spring-boot-config-samples-tomcat-annotation</module>
         <module>spring-boot-config-samples-tomcat-es</module>
+        <module>spring-boot-config-samples-tomcat-clickhouse</module>
     </modules>
 
     <!--
