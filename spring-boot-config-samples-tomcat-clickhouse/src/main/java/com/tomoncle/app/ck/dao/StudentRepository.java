@@ -17,12 +17,17 @@
 package com.tomoncle.app.ck.dao;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.tomoncle.app.ck.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.Tuple;
+import java.util.List;
 
 /**
  * @author tomoncle
@@ -78,4 +83,28 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             "user_id =:userId",
             nativeQuery = true)
     void delete(@Param("userId") Long userId);
+
+    /**
+     * 查询数组
+     *
+     * @return [[1604465665858,"jackson",100],[10,"tomoncle",20]]
+     */
+    @Query(value = "select user_id as userId, name, age from t_student", nativeQuery = true)
+    JSONArray array();
+
+    /**
+     * 查询列表
+     *
+     * @return [{"name":"jackson","userId":1604465665858,"age":100}, {"name":"tomoncle","userId":10,"age":20}]
+     */
+    @Query(value = "select user_id as userId, name, age from t_student", nativeQuery = true)
+    List<JSONObject> list();
+
+    /**
+     * 查询列表
+     *
+     * @return javax.persistence.Tuple
+     */
+    @Query(value = "select user_id as userId, name, age from t_student", nativeQuery = true)
+    List<Tuple> tuples();
 }

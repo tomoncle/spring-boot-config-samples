@@ -17,6 +17,10 @@
 package com.tomoncle.app.ck.api;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.tomoncle.app.ck.common.JsonUtils;
 import com.tomoncle.app.ck.dao.StudentRepository;
 import com.tomoncle.app.ck.dto.StudentDto;
 import com.tomoncle.app.ck.entity.Student;
@@ -57,6 +61,21 @@ public class StudentController {
     @GetMapping
     public List<Student> studentList() {
         return studentRepository.findAll();
+    }
+
+    @GetMapping("/json")
+    public List<JSONObject> jsonObjects() {
+        return studentRepository.list();
+    }
+
+    @GetMapping("/array")
+    public JSONArray arrays() {
+        return studentRepository.array();
+    }
+
+    @GetMapping("/objectNodes")
+    public List<ObjectNode> objectNodes() {
+        return JsonUtils.tupleToJson(studentRepository.tuples());
     }
 
     @PostMapping
