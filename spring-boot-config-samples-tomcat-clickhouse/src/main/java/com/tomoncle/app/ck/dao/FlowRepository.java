@@ -60,7 +60,4 @@ public interface FlowRepository extends JpaRepository<Flow, String> {
                                        @Param("ipAddr") String ipAddr);
 
 
-    @Query(value = "SELECT :sqlString", nativeQuery = true)
-    List<JSONObject> autoSearch(@Param("sqlString") String sql);
-
 }
