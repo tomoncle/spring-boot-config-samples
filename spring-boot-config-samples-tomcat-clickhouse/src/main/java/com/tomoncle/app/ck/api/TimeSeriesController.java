@@ -42,7 +42,7 @@ public class TimeSeriesController {
     @PostMapping("/add")
     public int add() {
         TimeSeriesDto timeSeriesDto = new TimeSeriesDto();
-        return timeSeriesRepository.save(timeSeriesDto.getCreateTime(),
+        return timeSeriesRepository.save(timeSeriesDto.getCreateDate(),
                 timeSeriesDto.getCreateTimeHour(),
                 timeSeriesDto.getCreateTimeMin(),
                 timeSeriesDto.getCreateTimeSec(),

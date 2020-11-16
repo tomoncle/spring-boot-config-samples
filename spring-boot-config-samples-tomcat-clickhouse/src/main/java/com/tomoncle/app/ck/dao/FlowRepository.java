@@ -17,7 +17,7 @@
 package com.tomoncle.app.ck.dao;
 
 import com.alibaba.fastjson.JSONObject;
-import com.tomoncle.app.ck.entity.Flow;
+import com.tomoncle.app.ck.entity.JpaModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * @author tomoncle
  */
-public interface FlowRepository extends JpaRepository<Flow, String> {
+public interface FlowRepository extends JpaRepository<JpaModel, String> {
 
     /**
      * 计算连续的收包速率

@@ -14,27 +14,24 @@
  * limitations under the License.
  */
 
-package com.tomoncle.app.ck.dto;
+package com.tomoncle.app.ck.entity;
 
-import com.tomoncle.app.ck.common.TimeUtils;
 import lombok.Data;
 
-import java.util.Random;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
+ * 使用jpa的连接，自定义执行sql时，可以使用此类 : xxx extends JpaRepository<JpaModel, String>
+ *
  * @author tomoncle
+ * @see com.tomoncle.app.ck.config.InitialDB
  */
 @Data
-public class TimeSeriesDto {
-    // 时间戳精确到day
-    private Long createDate = TimeUtils.days();
-    // 时间戳精确到小时
-    private Long createTimeHour = TimeUtils.hours();
-    // 时间戳精确到分钟
-    private Long createTimeMin = TimeUtils.minutes();
-    // 时间戳精确到秒
-    private Long createTimeSec = TimeUtils.seconds();
-
-    private Float value = new Random().nextFloat();
-
+@Entity
+@Table(name = "jpa_model")
+public class JpaModel {
+    @Id
+    private String uuid;
 }

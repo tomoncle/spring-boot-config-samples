@@ -16,7 +16,7 @@
 
 package com.tomoncle.app.ck.dao;
 
-import com.tomoncle.app.ck.entity.TimeSeries;
+import com.tomoncle.app.ck.entity.JpaModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -29,27 +29,27 @@ import java.util.List;
  * @author tomoncle
  */
 @Transactional
-public interface TimeSeriesRepository extends JpaRepository<TimeSeries, String> {
+public interface TimeSeriesRepository extends JpaRepository<JpaModel, String> {
 
 
     @Modifying
     @Query(value = "INSERT INTO t_time_series " +
-            "(create_time, create_time_hour, create_time_min, create_time_sec, value) " +
+            "(create_date, create_time_hour, create_time_min, create_time_sec, value) " +
             "VALUES " +
-            "(:create_time, :create_time_hour, :create_time_min, :create_time_sec, :value_)",
+            "(:create_date, :create_time_hour, :create_time_min, :create_time_sec, :value_)",
             nativeQuery = true)
-    int save(@Param("create_time") Long createTime,
+    int save(@Param("create_date") Long createDate,
              @Param("create_time_hour") Long createTimeHour,
              @Param("create_time_min") Long createTimeMin,
              @Param("create_time_sec") Long createTimeSec,
              @Param("value_") Float value);
 
 
-    @Query(value = "SELECT toString(arrayJoin(timeSeriesGroupSum(create_time, create_time_sec, value))) AS rate " +
+    @Query(value = "SELECT arrayJoin(timeSeriesGroupSum(create_date, create_time_sec, value)) AS rate " +
             "FROM  " +
             "( " +
             "    SELECT  " +
-            "        create_time, " +
+            "        create_date, " +
             "        create_time_sec, " +
             "        value " +
             "    FROM default.t_time_series " +
@@ -58,11 +58,11 @@ public interface TimeSeriesRepository extends JpaRepository<TimeSeries, String> 
             nativeQuery = true)
     List<String> timeSeriesGroupSumBySec();
 
-    @Query(value = "SELECT toString(arrayJoin(timeSeriesGroupSum(create_time, create_time_min, value))) AS rate " +
+    @Query(value = "SELECT toString(arrayJoin(timeSeriesGroupSum(create_date, create_time_min, value))) AS rate " +
             "FROM  " +
             "( " +
             "    SELECT  " +
-            "        create_time, " +
+            "        create_date, " +
             "        create_time_min, " +
             "        value " +
             "    FROM default.t_time_series " +
@@ -71,11 +71,11 @@ public interface TimeSeriesRepository extends JpaRepository<TimeSeries, String> 
             nativeQuery = true)
     List<String> timeSeriesGroupSumByMin();
 
-    @Query(value = "SELECT toString(arrayJoin(timeSeriesGroupSum(create_time, create_time_hour, value))) AS rate " +
+    @Query(value = "SELECT toString(arrayJoin(timeSeriesGroupSum(create_date, create_time_hour, value))) AS rate " +
             "FROM  " +
             "( " +
             "    SELECT  " +
-            "        create_time, " +
+            "        create_date, " +
             "        create_time_hour, " +
             "        value " +
             "    FROM default.t_time_series " +
