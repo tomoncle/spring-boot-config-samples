@@ -70,7 +70,7 @@ public class InitialDB {
                 ") ENGINE = MergeTree(event_date, (uuid), 8192)");
         HttpEntity requestBody = new HttpEntity(map, headers);
         String object = this.restTemplate.postForObject(url, requestBody, String.class);
-        logger.info(null == object ? "create success!" : object);
+        logger.info(null == object ? "create jpa_model success!" : object);
     }
 
 }
