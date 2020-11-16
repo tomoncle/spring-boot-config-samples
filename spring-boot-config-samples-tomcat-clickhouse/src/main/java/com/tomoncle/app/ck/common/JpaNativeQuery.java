@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.tomoncle.app.ck.dao;
+package com.tomoncle.app.ck.common;
 
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
@@ -33,8 +33,8 @@ import java.util.Map;
  */
 @Repository
 @Transactional
-public class SqlRepository {
-    private static final Logger logger = LoggerFactory.getLogger(SqlRepository.class);
+public class JpaNativeQuery {
+    private static final Logger logger = LoggerFactory.getLogger(JpaNativeQuery.class);
 
     @PersistenceContext
     private EntityManager entityManager;

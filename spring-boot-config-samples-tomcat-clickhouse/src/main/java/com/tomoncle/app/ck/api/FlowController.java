@@ -17,8 +17,8 @@
 package com.tomoncle.app.ck.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tomoncle.app.ck.common.JpaNativeQuery;
 import com.tomoncle.app.ck.dao.FlowRepository;
-import com.tomoncle.app.ck.dao.SqlRepository;
 import com.tomoncle.config.springboot.utils.DateUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,11 +37,11 @@ import java.util.Map;
 public class FlowController {
 
     private final FlowRepository flowRepository;
-    private final SqlRepository sqlRepository;
+    private final JpaNativeQuery jpaNativeQuery;
 
-    public FlowController(FlowRepository flowRepository, SqlRepository sqlRepository) {
+    public FlowController(FlowRepository flowRepository, JpaNativeQuery jpaNativeQuery) {
         this.flowRepository = flowRepository;
-        this.sqlRepository = sqlRepository;
+        this.jpaNativeQuery = jpaNativeQuery;
     }
 
     @GetMapping("queryFlowPackRate")
@@ -82,7 +82,7 @@ public class FlowController {
                 " WHERE 1==1 " + buildCondition(ipv4SrcAddr, ipv4DstAddr, ipv4Addr, ipv6SrcAddr, ipv6DstAddr, ipv6Addr) +
                 " GROUP BY t_virtual_table.create_time " +
                 " ORDER BY t_virtual_table.create_time ASC";
-        return sqlRepository.queryForMaps(sql);
+        return jpaNativeQuery.queryForMaps(sql);
     }
 
     private String buildCondition(String ipv4SrcAddr, String ipv4DstAddr, String ipv4Addr,
