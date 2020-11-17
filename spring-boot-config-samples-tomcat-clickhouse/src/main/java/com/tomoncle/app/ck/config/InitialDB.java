@@ -28,6 +28,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author tomoncle
  */
@@ -49,18 +52,7 @@ public class InitialDB {
         String[] split = properties.getUrl().split("/");
         String hostname = split[2];
         String database = split[3].split("\\?")[0];
-        String url = "http://" + hostname + "/?add_http_cors_header=1" +
-                "&log_queries=1" +
-                "&output_format_json_quote_64bit_integers=1" +
-                "&output_format_json_quote_denormals=1" +
-                "&user=" + properties.getUsername() +
-                "&password=" + properties.getPassword() +
-                "&database=" + database +
-                "&result_overflow_mode=throw" +
-                "&max_result_rows=5000" +
-                "&timeout_overflow_mode=throw" +
-                "&max_execution_time=5";
-
+        String url = "http://" + hostname + "/?" + getParameters(properties.getUsername(), properties.getPassword(), database);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
@@ -71,6 +63,31 @@ public class InitialDB {
         HttpEntity requestBody = new HttpEntity(map, headers);
         String object = this.restTemplate.postForObject(url, requestBody, String.class);
         logger.info(null == object ? "create jpa_model success!" : object);
+    }
+
+
+    private String getParameters(String user, String password, String database) {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("add_http_cors_header", "1");
+        parameters.put("log_queries", "1");
+        parameters.put("output_format_json_quote_64bit_integers", "1");
+        parameters.put("output_format_json_quote_denormals", "1");
+        parameters.put("user", user);
+        parameters.put("password", password);
+        parameters.put("database", database);
+        parameters.put("result_overflow_mode", "throw");
+        parameters.put("max_result_rows", "5000");
+        parameters.put("timeout_overflow_mode", "throw");
+        parameters.put("max_execution_time", "5");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String key : parameters.keySet()) {
+            if (stringBuilder.length() > 0) {
+                stringBuilder.append("&");
+            }
+            stringBuilder.append(key).append("=").append(parameters.get(key));
+        }
+        return stringBuilder.toString();
+
     }
 
 }

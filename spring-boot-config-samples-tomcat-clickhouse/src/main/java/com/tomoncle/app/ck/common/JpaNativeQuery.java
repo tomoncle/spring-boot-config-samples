@@ -16,6 +16,7 @@
 
 package com.tomoncle.app.ck.common;
 
+import com.alibaba.fastjson.JSONObject;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
@@ -33,13 +34,13 @@ import java.util.Map;
  */
 @Repository
 @Transactional
+@SuppressWarnings("all")
 public class JpaNativeQuery {
     private static final Logger logger = LoggerFactory.getLogger(JpaNativeQuery.class);
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    @SuppressWarnings("all")
     public List<Map<String, Object>> queryForMaps(String sql) {
         logger.debug("Execute sql: " + sql);
         List<Map<String, Object>> list = entityManager.createNativeQuery(sql)
@@ -49,4 +50,15 @@ public class JpaNativeQuery {
         entityManager.clear();
         return list;
     }
+
+    public List<JSONObject> queryForJSONObjects(String sql) {
+        logger.debug("Execute sql: " + sql);
+        List list = entityManager.createNativeQuery(sql)
+                .unwrap(NativeQuery.class)
+                .setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP)
+                .getResultList();
+        entityManager.clear();
+        return list;
+    }
 }
+
