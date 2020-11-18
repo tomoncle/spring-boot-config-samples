@@ -60,4 +60,64 @@ public interface FlowRepository extends JpaRepository<JpaModel, String> {
                                        @Param("ipAddr") String ipAddr);
 
 
+    /**
+     * 获取4层流量协议分布
+     *
+     * @return List<JSONObject>
+     */
+    @Query(value = "select " +
+            "count(PROTOCOL_MAP) as size, " +
+            "PROTOCOL_MAP as L4_PROTO_NAME " +
+            "from " +
+            "t_flow " +
+            "group by " +
+            "PROTOCOL_MAP", nativeQuery = true)
+    List<JSONObject> protocolRatioL4();
+
+
+    /**
+     * 获取7层协议分布
+     * <p>
+     * SELECT
+     * L7_PROTO_NAME,
+     * count(L7_PROTO_NAME) as records
+     * from
+     * db_npm.t_flow
+     * where
+     * L7_PROTO_NAME != ''
+     * group by
+     * L7_PROTO_NAME
+     * order by
+     * records desc
+     * <p>
+     * <p>
+     * SELECT
+     * PROTO_NAME,
+     * count(PROTO_NAME) as records
+     * from
+     * (
+     * select
+     * L7_PROTO_NAME,
+     * if(length(L7_PROTO_NAME)== 0,'Unknown',L7_PROTO_NAME ) AS PROTO_NAME
+     * from
+     * db_npm.t_flow
+     * )
+     * group by
+     * PROTO_NAME
+     * order by
+     * records desc
+     *
+     * @return List<JSONObject>
+     */
+    @Query(value = "SELECT " +
+            "L7_PROTO_NAME, " +
+            "count(L7_PROTO_NAME) as size " +
+            "from " +
+            "t_flow " +
+            "group by L7_PROTO_NAME " +
+            "order by size desc", nativeQuery = true)
+    List<JSONObject> protocolRatioL7();
+
+
+
 }
