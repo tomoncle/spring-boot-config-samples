@@ -16,13 +16,23 @@
 
 package com.tomoncle.test.ck;
 
+import com.alibaba.fastjson.JSONObject;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
+
 /**
  * @author tomoncle
  */
 public class A {
     public static void main(String[] args) {
-        String[] strings = "jdbc:clickhouse://127.0.0.1:8123/default?characterEncoding=utf8".split("/");
-        System.out.println(strings[2]);
-        System.out.println(strings[3].split("\\?")[0]);
+        String jsonBody = "{}";
+        RestTemplate template = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("auth-token", "NHowZzAvOD");
+        ResponseEntity<String> exchange = template.exchange("http://localhost:5000/v1/instances/images",
+                HttpMethod.POST, new HttpEntity<>(JSONObject.parse(jsonBody), headers), String.class);
+        System.out.println(exchange.getBody());
+        System.out.println(exchange.getStatusCodeValue());
     }
 }
