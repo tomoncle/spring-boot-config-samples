@@ -38,6 +38,7 @@
         <module>spring-boot-config-samples-tomcat-annotation</module>
         <module>spring-boot-config-samples-tomcat-es</module>
         <module>spring-boot-config-samples-tomcat-clickhouse</module>
+        <module>spring-boot-config-samples-tomcat-restfulapi</module>
     </modules>
 
     <!--
