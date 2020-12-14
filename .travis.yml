@@ -1,9 +1,8 @@
 sudo: false
 language: java
-dist:
-  - trusty
+dist: trusty
 
-script:
+before_script:
   - export JDK8_HOME=$(jdk_switcher home oraclejdk8)
   - export JDK9_HOME=/usr/lib/jvm/java-9-oracle
   - test -d "${JDK8_HOME}" || export JDK8_HOME=${JDK9_HOME}

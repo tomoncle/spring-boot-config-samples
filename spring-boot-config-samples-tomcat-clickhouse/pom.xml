@@ -56,7 +56,7 @@
         <!--  ########## spring boot config dependencies  ##########    -->
         <dependency>
             <groupId>com.tomoncle</groupId>
-            <artifactId>spring-boot-config-autoscan</artifactId>
+            <artifactId>spring-boot-config-clickhouse</artifactId>
         </dependency>
         <dependency>
             <groupId>com.tomoncle</groupId>
@@ -98,7 +98,7 @@
 
     <build>
         <!--https://docs.spring.io/spring-boot/docs/current/maven-plugin/index.html-->
-        <finalName>network-traffic-analysis-provider</finalName>
+        <finalName>clickHouse</finalName>
         <!--jar包打包配置，引入配置文件-->
         <resources>
             <resource>
