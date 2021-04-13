@@ -69,7 +69,7 @@
             <!--  tomoncle's private maven repository.  -->
             <id>tomoncle repository</id>
             <name>tomoncle Repositories</name>
-            <url>https://tomoncle.com/repository</url>
+            <url>https://maven.tomoncle.com</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -81,7 +81,7 @@
             <!--  snapshots repository.  -->
             <id>tomoncle snapshots</id>
             <name>tomoncle snapshots Repositories</name>
-            <url>https://tomoncle.com/snapshots</url>
+            <url>https://snapshots-maven.tomoncle.com</url>
             <releases>
                 <enabled>false</enabled>
             </releases>

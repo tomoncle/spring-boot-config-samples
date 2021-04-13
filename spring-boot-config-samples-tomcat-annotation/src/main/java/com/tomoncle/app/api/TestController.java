@@ -17,20 +17,21 @@
 package com.tomoncle.app.api;
 
 import com.tomoncle.app.api.service.TestService;
-import com.tomoncle.config.springboot.annotation.SilentError;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tomoncle.config.springboot.model.SilentError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/ss")
 public class TestController {
 
-    @Autowired
-    TestService testService;
+    private final TestService testService;
 
 
-    public TestController() {
+    public TestController(TestService testService) {
         System.out.println("load TestController.");
+        this.testService = testService;
     }
 
     class Student {
@@ -38,7 +39,7 @@ public class TestController {
         private int age;
     }
 
-    @SilentError
+
     @GetMapping("/hello")
     public Object hello(String hello, Integer size) {
         System.out.println(1 / 0);
@@ -52,6 +53,7 @@ public class TestController {
         return "hello world!";
     }
 
+    @SilentError
     @GetMapping("/error")
     public Object error() {
         // 错误的使用方法

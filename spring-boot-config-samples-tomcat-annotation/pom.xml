@@ -44,7 +44,11 @@
         </dependency>
         <dependency>
             <groupId>com.tomoncle</groupId>
-            <artifactId>spring-boot-config-annotation</artifactId>
+            <artifactId>spring-boot-config-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tomoncle</groupId>
+            <artifactId>spring-boot-config-swagger</artifactId>
         </dependency>
         <!--Test-->
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
