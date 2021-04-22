@@ -39,6 +39,7 @@
         <module>spring-boot-config-samples-tomcat-es</module>
         <module>spring-boot-config-samples-tomcat-clickhouse</module>
         <module>spring-boot-config-samples-tomcat-restfulapi</module>
+        <module>spring-boot-config-samples-tomcat-ldap</module>
     </modules>
 
     <!--
