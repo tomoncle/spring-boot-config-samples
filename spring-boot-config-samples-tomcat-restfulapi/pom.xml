@@ -40,5 +40,10 @@
             <groupId>com.tomoncle</groupId>
             <artifactId>spring-boot-config-swagger</artifactId>
         </dependency>
+        <!-- SSLConnectionSocketFactory 依赖 httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
     </dependencies>
 </project>
