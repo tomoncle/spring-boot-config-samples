@@ -49,15 +49,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.37</version>
-        </dependency>
         <!--  ########## spring boot config dependencies  ##########    -->
         <dependency>
             <groupId>com.tomoncle</groupId>
@@ -65,20 +56,21 @@
         </dependency>
         <dependency>
             <groupId>com.tomoncle</groupId>
-            <artifactId>spring-boot-config-druid</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tomoncle</groupId>
-            <artifactId>spring-boot-config-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tomoncle</groupId>
             <artifactId>spring-boot-config-elasticsearch</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tomoncle</groupId>
+            <artifactId>spring-boot-config-utils</artifactId>
         </dependency>
         <!--   ########## 测试  ##########  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

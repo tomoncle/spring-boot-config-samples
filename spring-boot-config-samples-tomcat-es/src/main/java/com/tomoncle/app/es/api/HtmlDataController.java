@@ -17,84 +17,152 @@
 package com.tomoncle.app.es.api;
 
 import com.tomoncle.app.es.dao.HtmlDataRepository;
-import com.tomoncle.app.es.dao.HtmlDataUnblockRepository;
 import com.tomoncle.app.es.entity.HtmlData;
-import com.tomoncle.app.es.entity.HtmlDataUnblock;
+import com.tomoncle.config.springboot.utils.GenUUID;
+import com.tomoncle.config.springboot.utils.HashUtils;
 import lombok.SneakyThrows;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.BucketOrder;
+import org.elasticsearch.search.aggregations.bucket.terms.ParsedStringTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author tomoncle
  */
 @RestController
-@RequestMapping("/import")
+@RequestMapping("/api")
 public class HtmlDataController {
 
     private static final Logger logger = LoggerFactory.getLogger(HtmlDataController.class);
+    private final HtmlDataRepository repository;
 
-    private final HtmlDataRepository htmlDataRepository;
-    private final HtmlDataUnblockRepository analysisResultHistoryRepository;
-    private final StringRedisTemplate stringRedisTemplate;
-
-    public HtmlDataController(HtmlDataRepository htmlDataRepository,
-                              HtmlDataUnblockRepository analysisResultHistoryRepository,
-                              StringRedisTemplate stringRedisTemplate) {
-        this.htmlDataRepository = htmlDataRepository;
-        this.analysisResultHistoryRepository = analysisResultHistoryRepository;
-        this.stringRedisTemplate = stringRedisTemplate;
+    public HtmlDataController(HtmlDataRepository repository) {
+        this.repository = repository;
     }
 
-    @RequestMapping(value = "/start", method = RequestMethod.HEAD)
+    @RequestMapping(value = "/import", method = RequestMethod.HEAD)
     public int importDataFromMySQL() {
         Runnable runnable = this::batchImport;
         new Thread(runnable).start();
         return 0;
     }
 
-    @SneakyThrows
-    private void batchImport() {
-        final String lockName = "import_task_page_index";
-        final int offset = 10000;
-        final Integer total = Integer.valueOf(htmlDataRepository.count() + "");
-        for (int i = 0; i <= total / offset; i++) {
-            String index = stringRedisTemplate.opsForValue().get(lockName);
-            if (null != index && i <= Integer.valueOf(index)) {
-                continue;
-            }
-            long start = System.currentTimeMillis();
-            analysisResultHistoryRepository.saveAll(copy(htmlDataRepository.queryBatch(i * offset, offset)));
-            analysisResultHistoryRepository.refresh();
-            logger.info("处理：{}~{} 条数据，耗时 {} s.",
-                    i * offset,
-                    (i + 1) * offset,
-                    (System.currentTimeMillis() - start) / 1000.0);
-            stringRedisTemplate.opsForValue().set(lockName, "" + i);
-            Thread.sleep(1000);
-        }
+    @RequestMapping(value = "/list")
+    public List<HtmlData> list(@RequestParam String word,
+                               @RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "10") int size) {
+        page = page > 0 ? page - 1 : 0;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<HtmlData> byResult = repository.querySample(word, pageRequest);
+        return byResult.getContent();
     }
 
-    private List<HtmlDataUnblock> copy(List<HtmlData> dataList) {
-        List<HtmlDataUnblock> htmlDataUnblocks = new ArrayList<>();
-        HtmlDataUnblock analysisResultHistory;
-        for (HtmlData htmlData : dataList) {
-            analysisResultHistory = new HtmlDataUnblock();
-            analysisResultHistory.setId(htmlData.getId());
-            analysisResultHistory.setDocId(htmlData.getDocId());
-            analysisResultHistory.setUrl(htmlData.getUrl());
-            analysisResultHistory.setResult(htmlData.getResult());
-            analysisResultHistory.setStatus(htmlData.getStatus());
-            analysisResultHistory.setCreateTimestamp(htmlData.getCreateTime().getTime());
-            analysisResultHistory.setUpdateTimestamp(htmlData.getUpdateTime().getTime());
-            htmlDataUnblocks.add(analysisResultHistory);
+    @RequestMapping(value = "/like")
+    public List<HtmlData> like(@RequestParam String word,
+                               @RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "10") int size) {
+        page = page > 0 ? page - 1 : 0;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<HtmlData> byResult = repository.likeSample(word, pageRequest);
+        return byResult.getContent();
+    }
+
+    @RequestMapping(value = "/sort")
+    public List<HtmlData> sort(@RequestParam String word,
+                               @RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "10") int size,
+                               @RequestParam(defaultValue = "-1") int order) {
+        page = page > 0 ? page - 1 : 0;
+        Sort orderId = Sort.by(order > 0 ? Sort.Direction.DESC : Sort.Direction.ASC, "_id");
+        Sort orderResult = Sort.by(order < 0 ? Sort.Direction.DESC : Sort.Direction.ASC, "result");
+        PageRequest pageRequest = PageRequest.of(page, size)
+                .withSort(orderId)
+                .withSort(orderResult);
+        Page<HtmlData> byResult = repository.sortSample(word, pageRequest);
+        return byResult.getContent();
+    }
+
+    @RequestMapping(value = "/clear", method = RequestMethod.DELETE)
+    public Long clear() {
+        Long count = repository.count();
+        repository.deleteAll();
+        return count;
+    }
+
+    @RequestMapping(value = "/agg")
+    public Map<String, Long> agg(@RequestParam String word) {
+        // 构建聚合查询条件，根据result属性进行分组，并根据统计值进行倒序排序
+        TermsAggregationBuilder mb = AggregationBuilders
+                .terms("group_by_result").field("result").size(10).order(BucketOrder.count(false));
+        // 构建查询条件, 根据result属性模糊查询
+        QueryBuilder queryBuilder = QueryBuilders
+                .boolQuery().must(QueryBuilders.wildcardQuery("result", "*" + word + "*"));
+
+        Aggregations aggregations = repository.aggregations(queryBuilder, mb, HtmlData.class);
+        Map<String, Long> map = new LinkedHashMap<>();
+        if (null == aggregations) {
+            return map;
         }
-        return htmlDataUnblocks;
+        List<Aggregation> aggregationsList = aggregations.asList();
+        for (Aggregation aggregation : aggregationsList) {
+            logger.info("aggregation: {}", aggregation.getName());
+            List<? extends Terms.Bucket> buckets = ((ParsedStringTerms) aggregation).getBuckets();
+            for (Terms.Bucket bucket : buckets) {
+                map.put(bucket.getKeyAsString(), bucket.getDocCount());
+            }
+        }
+        return map;
+    }
+
+    @SneakyThrows
+    private void batchImport() {
+        repository.saveAll(getData());
+        Thread.sleep(1000);
+    }
+
+    private List<HtmlData> getData() {
+        List<HtmlData> htmlData = new ArrayList<>();
+        HtmlData analysisResultHistory;
+        GenUUID uuid = GenUUID.build();
+        Random random = new Random();
+        String urlPrefix = "www.google.com/api/";
+        String[] words = {
+                "Java导航", "Java电影", "Java动画", "Java社区", "Java视频", "Java文档",
+                "Python导航", "Python电影", "Python动画",
+                "Go社区", "Go视频", "Go文档"
+        };
+        String id, url, docId, result;
+        for (int i = 0; i < 101; i++) {
+            id = uuid.generate();
+            url = urlPrefix + id;
+            docId = HashUtils.fingerprint(url);
+            result = words[random.nextInt(words.length)];
+            analysisResultHistory = new HtmlData();
+            analysisResultHistory.setId(uuid.generate());
+            analysisResultHistory.setDocId(docId);
+            analysisResultHistory.setUrl(url);
+            analysisResultHistory.setResult(result);
+            analysisResultHistory.setStatus(2);
+            analysisResultHistory.setCreateTimestamp(System.currentTimeMillis());
+            analysisResultHistory.setUpdateTimestamp(System.currentTimeMillis());
+            htmlData.add(analysisResultHistory);
+        }
+        return htmlData;
     }
 }

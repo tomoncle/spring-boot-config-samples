@@ -17,27 +17,25 @@
 package com.tomoncle.app.es.dao;
 
 import com.tomoncle.app.es.entity.HtmlData;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-import java.util.List;
+import com.tomoncle.config.springboot.elasticserch.repository.AggregationsRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.annotations.Query;
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.stereotype.Component;
 
 /**
  * @author tomoncle
+ * @apiNote https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/#elasticsearch.query-methods.criterions
  */
-public interface HtmlDataRepository extends JpaRepository<HtmlData, String> {
-    /**
-     * SELECT * FROM t_analysis_result_history WHERE id >=(SELECT id FROM t_analysis_result_history LIMIT 3266613, 1) LIMIT 10;
-     *
-     * @param index index
-     * @param size  offset
-     * @return List<HtmlData>
-     */
-    @Query(value = "SELECT * FROM t_analysis_result_history " +
-            "WHERE id >= " +
-            "(SELECT id FROM t_analysis_result_history LIMIT :index, 1) " +
-            "LIMIT :offset",
-            nativeQuery = true)
-    List<HtmlData> queryBatch(@Param("index") int index, @Param("offset") int size);
+@Component
+public interface HtmlDataRepository extends ElasticsearchRepository<HtmlData, String>, AggregationsRepository<HtmlData> {
+    @Query("{\"match\":{\"result\":{\"query\":\"?0\"}}}")
+    Page<HtmlData> querySample(String name, Pageable pageable);
+
+    @Query("{\"bool\":{\"must_not\":[],\"should\":[],\"must\":[{\"wildcard\":{\"result\":\"*?0*\"}}]}}")
+    Page<HtmlData> likeSample(String name, Pageable pageable);
+
+    @Query("{\"bool\":{\"must\":[{\"wildcard\":{\"result\":\"*?0*\"}}]}}")
+    Page<HtmlData> sortSample(String name, Pageable pageable);
 }

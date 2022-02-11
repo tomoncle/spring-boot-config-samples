@@ -17,43 +17,46 @@
 package com.tomoncle.app.es.entity;
 
 import lombok.Data;
-
-import javax.persistence.*;
-import java.util.Date;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 /**
  * @author tomoncle
  */
-
 @Data
-@Entity
-@Table(name = "t_analysis_result_history")
+@Document(indexName = HtmlData.INDEX_NAME)
+@Setting(settingPath = "elasticsearch/index_analysis_result_history_settings.json")
 public class HtmlData {
-    // 主键
+    public static final String INDEX_NAME = "test_es7";
+    public static final String INDEX_TYPE = "test-es7";
+
     @Id
     private String id;
 
     // url
-    @Column(length = 1280)
+    @Field(type = FieldType.Keyword)
     private String url;
 
     // 文档id
+    @Field(type = FieldType.Keyword)
     private String docId;
 
     // 状态
+    @Field(type = FieldType.Integer)
     private Integer status;
 
     // 分析结果, json类型
+    @Field(type = FieldType.Keyword)
     private String result;
 
     // 创建时间
-    private Date createTime = new Date();
+    @Field(type = FieldType.Long)
+    private Long createTimestamp;
 
     // 更新时间
-    private Date updateTime = new Date();
-
-    @Transient
-    private String statusName;
-
-
+    @Field(type = FieldType.Long)
+    private Long updateTimestamp;
 }
