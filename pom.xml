@@ -40,6 +40,7 @@
         <module>spring-boot-config-samples-tomcat-clickhouse</module>
         <module>spring-boot-config-samples-tomcat-restfulapi</module>
         <module>spring-boot-config-samples-tomcat-ldap</module>
+        <module>spring-boot-config-samples-tomcat-freemarker</module>
     </modules>
 
     <!--
@@ -50,7 +51,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.2.RELEASE</version>
+        <version>2.5.9</version>
     </parent>
 
     <!-- ************ * 开发者信息 * ************ -->
@@ -102,7 +103,7 @@
         <updateReleaseInfo>true</updateReleaseInfo>
         <project.build.sourceEncoding>${file_encoding}</project.build.sourceEncoding>
         <!-- spring-boot-config -->
-        <spring.boot.config.version>2.1.2</spring.boot.config.version>
+        <spring.boot.config.version>2.5.9</spring.boot.config.version>
 
     </properties>
 

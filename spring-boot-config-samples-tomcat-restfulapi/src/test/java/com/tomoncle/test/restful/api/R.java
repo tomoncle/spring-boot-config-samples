@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package com.tomoncle.app.api.service;
+package com.tomoncle.test.restful.api;
 
-import com.tomoncle.config.springboot.model.SilentError;
-import org.springframework.stereotype.Component;
+import lombok.SneakyThrows;
 
-@Component
-public class TestService {
-    @SilentError
-    public Object hello(String hello, Integer size) {
-        System.out.println(1 / 0);
-        return "hello world!" + hello + size;
+/**
+ * @author tomoncle
+ */
+public class R {
+    @SneakyThrows
+    public static void main(String[] args) {
     }
 }

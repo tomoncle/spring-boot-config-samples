@@ -18,6 +18,7 @@ package com.tomoncle.app.es.api;
 
 import com.tomoncle.app.es.dao.HtmlDataRepository;
 import com.tomoncle.app.es.entity.HtmlData;
+import com.tomoncle.config.springboot.elasticserch.service.ESQueryService;
 import com.tomoncle.config.springboot.utils.GenUUID;
 import com.tomoncle.config.springboot.utils.HashUtils;
 import lombok.SneakyThrows;
@@ -51,9 +52,11 @@ public class HtmlDataController {
 
     private static final Logger logger = LoggerFactory.getLogger(HtmlDataController.class);
     private final HtmlDataRepository repository;
+    private final ESQueryService<HtmlData> queryService;
 
-    public HtmlDataController(HtmlDataRepository repository) {
+    public HtmlDataController(HtmlDataRepository repository, ESQueryService<HtmlData> queryService) {
         this.repository = repository;
+        this.queryService = queryService;
     }
 
     @RequestMapping(value = "/import", method = RequestMethod.HEAD)
@@ -114,7 +117,7 @@ public class HtmlDataController {
         QueryBuilder queryBuilder = QueryBuilders
                 .boolQuery().must(QueryBuilders.wildcardQuery("result", "*" + word + "*"));
 
-        Aggregations aggregations = repository.aggregations(queryBuilder, mb, HtmlData.class);
+        Aggregations aggregations = queryService.aggregations(queryBuilder, mb, HtmlData.class);
         Map<String, Long> map = new LinkedHashMap<>();
         if (null == aggregations) {
             return map;

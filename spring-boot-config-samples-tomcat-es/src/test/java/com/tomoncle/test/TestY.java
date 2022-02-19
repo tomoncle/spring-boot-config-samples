@@ -18,14 +18,6 @@ package com.tomoncle.test;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-
-interface A<T> {
-    Class<T> get();
-}
-
-interface C extends A<Fake> {
-}
-
 /**
  * @author tomoncle
  */
@@ -36,11 +28,8 @@ public class TestY {
     }
 }
 
-class Fake {
-    @Override
-    public String toString() {
-        return "Fake class";
-    }
+interface A<T> {
+    Class<T> get();
 }
 
 class AA<T> implements A<T> {
@@ -49,6 +38,16 @@ class AA<T> implements A<T> {
         //获得父类上声明的泛型数组
         Type[] actualTypeArguments = superclass.getActualTypeArguments();
         return (Class<T>) actualTypeArguments[0];
+    }
+}
+
+interface C extends A<Fake> {
+}
+
+class Fake {
+    @Override
+    public String toString() {
+        return "Fake class";
     }
 }
 

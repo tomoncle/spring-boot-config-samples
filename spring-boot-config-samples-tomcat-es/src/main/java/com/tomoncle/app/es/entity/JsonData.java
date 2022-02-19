@@ -14,16 +14,22 @@
  * limitations under the License.
  */
 
-package com.tomoncle.app.api.service;
+package com.tomoncle.app.es.entity;
 
-import com.tomoncle.config.springboot.model.SilentError;
-import org.springframework.stereotype.Component;
+import com.alibaba.fastjson.JSONObject;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
 
-@Component
-public class TestService {
-    @SilentError
-    public Object hello(String hello, Integer size) {
-        System.out.println(1 / 0);
-        return "hello world!" + hello + size;
-    }
+/**
+ * @author tomoncle
+ */
+@Getter
+@Setter
+@Document(indexName = JsonData.INDEX_NAME)
+public class JsonData extends JSONObject {
+    public static final String INDEX_NAME = "test_json";
+    @Id
+    private String id;
 }

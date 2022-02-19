@@ -25,20 +25,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-boot-config-samples-tomcat-es</artifactId>
-
-    <repositories>
-        <repository>
-            <id>elasticsearch-releases</id>
-            <url>https://artifacts.elastic.co/maven</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
+    <artifactId>spring-boot-config-samples-tomcat-freemarker</artifactId>
 
     <dependencies>
         <dependency>
@@ -47,32 +34,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tomoncle</groupId>
-            <artifactId>spring-boot-config-elasticsearch</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tomoncle</groupId>
-            <artifactId>spring-boot-config-utils</artifactId>
-        </dependency>
-        <!--   ########## 测试  ##########  -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
     </dependencies>
-
     <build>
-        <!--https://docs.spring.io/spring-boot/docs/current/maven-plugin/index.html-->
-        <finalName>import-es-from-mysql</finalName>
+        <finalName>freemarker-app</finalName>
         <!--jar包打包配置，引入配置文件-->
         <resources>
             <resource>
@@ -112,14 +78,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.tomoncle.app.es.Application</mainClass>
-                    <!--<layout>ZIP</layout>-->
-                    <!--<jvmArguments>-->
-                    <!---Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
-                    <!--</jvmArguments>-->
+                    <mainClass>com.tomoncle.app.fm.Application</mainClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>

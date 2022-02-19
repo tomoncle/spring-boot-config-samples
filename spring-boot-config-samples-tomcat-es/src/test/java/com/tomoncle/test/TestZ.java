@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * @author tomoncle
  */
-public class TestZ<SOURCE, TARGET> {
+public class TestZ<S, T> {
     public static void main(String[] args) {
         TestZ<M, N> testZ = new TestZ<>();
         M m = new M();
@@ -33,14 +33,14 @@ public class TestZ<SOURCE, TARGET> {
         System.out.println(testZ.copyTarget(m, N.class));
     }
 
-    public List<TARGET> copyTarget(List<SOURCE> sources, Class<? extends TARGET> target) {
-        List<TARGET> targets = new ArrayList<>();
-        TARGET TARGET;
-        for (SOURCE SOURCE : sources) {
+    public List<T> copyTarget(List<S> sources, Class<? extends T> target) {
+        List<T> targets = new ArrayList<>();
+        T T;
+        for (S S : sources) {
             try {
-                TARGET = target.newInstance();
-                BeanUtils.copyProperties(SOURCE, TARGET);
-                targets.add(TARGET);
+                T = target.newInstance();
+                BeanUtils.copyProperties(S, T);
+                targets.add(T);
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -48,10 +48,10 @@ public class TestZ<SOURCE, TARGET> {
         return targets;
     }
 
-    public List<SOURCE> copySource(List<TARGET> sources, Class<? extends SOURCE> target) {
-        List<SOURCE> targets = new ArrayList<>();
-        SOURCE t;
-        for (TARGET s : sources) {
+    public List<S> copySource(List<T> sources, Class<? extends S> target) {
+        List<S> targets = new ArrayList<>();
+        S t;
+        for (T s : sources) {
             try {
                 t = target.newInstance();
                 BeanUtils.copyProperties(s, t);
@@ -63,20 +63,20 @@ public class TestZ<SOURCE, TARGET> {
         return targets;
     }
 
-    public TARGET copyTarget(SOURCE source, Class<? extends TARGET> target) {
+    public T copyTarget(S source, Class<? extends T> target) {
         try {
-            TARGET TARGET = target.newInstance();
-            BeanUtils.copyProperties(source, TARGET);
-            return TARGET;
+            T T = target.newInstance();
+            BeanUtils.copyProperties(source, T);
+            return T;
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public SOURCE copySource(TARGET source, Class<? extends SOURCE> target) {
+    public S copySource(T source, Class<? extends S> target) {
         try {
-            SOURCE t = target.newInstance();
+            S t = target.newInstance();
             BeanUtils.copyProperties(source, t);
             return t;
         } catch (InstantiationException | IllegalAccessException e) {

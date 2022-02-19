@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package com.tomoncle.app.api.service;
+package com.tomoncle.app.es.dao;
 
-import com.tomoncle.config.springboot.model.SilentError;
-import org.springframework.stereotype.Component;
+import com.tomoncle.app.es.entity.JsonData;
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.stereotype.Repository;
 
-@Component
-public class TestService {
-    @SilentError
-    public Object hello(String hello, Integer size) {
-        System.out.println(1 / 0);
-        return "hello world!" + hello + size;
-    }
+/**
+ * @author tomoncle
+ */
+@Repository
+public interface JsonDataRepository extends ElasticsearchRepository<JsonData, String> {
 }

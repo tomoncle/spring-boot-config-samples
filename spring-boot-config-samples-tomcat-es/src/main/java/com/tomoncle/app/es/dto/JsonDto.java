@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package com.tomoncle.app.api.service;
+package com.tomoncle.app.es.dto;
 
-import com.tomoncle.config.springboot.model.SilentError;
-import org.springframework.stereotype.Component;
+import com.alibaba.fastjson.JSONObject;
 
-@Component
-public class TestService {
-    @SilentError
-    public Object hello(String hello, Integer size) {
-        System.out.println(1 / 0);
-        return "hello world!" + hello + size;
-    }
+/**
+ * @author tomoncle
+ */
+public class JsonDto extends JSONObject {
 }

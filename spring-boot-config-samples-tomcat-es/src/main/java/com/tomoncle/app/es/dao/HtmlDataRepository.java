@@ -17,19 +17,18 @@
 package com.tomoncle.app.es.dao;
 
 import com.tomoncle.app.es.entity.HtmlData;
-import com.tomoncle.config.springboot.elasticserch.repository.AggregationsRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author tomoncle
  * @apiNote https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/#elasticsearch.query-methods.criterions
  */
-@Component
-public interface HtmlDataRepository extends ElasticsearchRepository<HtmlData, String>, AggregationsRepository<HtmlData> {
+@Repository
+public interface HtmlDataRepository extends ElasticsearchRepository<HtmlData, String> {
     @Query("{\"match\":{\"result\":{\"query\":\"?0\"}}}")
     Page<HtmlData> querySample(String name, Pageable pageable);
 
