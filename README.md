@@ -12,7 +12,10 @@ spring-boot-config tests and samples.
   * **jar run** : default resource location is `static`, `public`, `resources`, `/META-INF/resources/`
   * **war run** : you can auto config the location, as `spring.mvc.view.prefix=/WEB-INF/jsp/`
   
-  
+## 其他
+
+springboot 在 2.4 版本后删掉了 ConfigurationBeanFactoryMetadata, 如果集成 nacos 需要降低版本,如 2.3.9，
+由于 nacos 官方尚未更新，所以，只能降低 spring-boot 版本支持 nacos .  
  
  
  [travis]: https://travis-ci.org/tomoncle/spring-boot-config-samples
