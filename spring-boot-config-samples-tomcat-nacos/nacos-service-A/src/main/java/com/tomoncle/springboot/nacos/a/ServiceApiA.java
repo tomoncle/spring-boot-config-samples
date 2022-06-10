@@ -14,16 +14,27 @@
  * limitations under the License.
  */
 
-package com.tomoncle.app.api.service;
+package com.tomoncle.springboot.nacos.a;
 
-import com.tomoncle.config.springboot.model.SilentError;
-import org.springframework.stereotype.Component;
+import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Component
-public class TestService {
-    @SilentError
-    public Object hello(String hello, Integer size) {
-        System.out.println(1 / 0);
-        return "hello world!" + hello + size;
+/**
+ * @author tomoncle
+ */
+@RestController
+public class ServiceApiA {
+    private static Logger logger = LoggerFactory.getLogger(ServiceApiA.class);
+
+    @SneakyThrows
+    @GetMapping("/api")
+    String name() {
+        Thread.sleep(5000);
+        logger.warn("调用A服务成功");
+        return "service-a";
     }
+
 }
