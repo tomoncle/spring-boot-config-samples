@@ -107,7 +107,7 @@ public class TestQuery {
         StringQuery query = new StringQuery(params, pageRequest, sort);
         query.addFields(fields);
         // 执行查询
-        SearchHits<JsonDto> test_json = template.search(query, JsonDto.class, IndexCoordinates.of("test_es7"));
+        SearchHits<JsonDto> test_json = template.search(query, JsonDto.class, IndexCoordinates.of("test_es*"));
         List<SearchHit<JsonDto>> searchHits = test_json.getSearchHits();
         for (SearchHit<JsonDto> data : searchHits) {
             System.out.println(data.getId() + " : " + data.getContent());
