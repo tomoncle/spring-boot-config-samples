@@ -59,6 +59,11 @@
             <groupId>com.tomoncle</groupId>
             <artifactId>spring-boot-config-errors</artifactId>
         </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
+        </dependency>
 
         <!--  ########## mysql dependencies  ##########    -->
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->

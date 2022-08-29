@@ -24,4 +24,6 @@ public interface UserService extends JpaCommonService<User, Integer> {
 
     Page<User> users(User user, int page, int rows);
 
+    User saveUnique(User user);
+
 }

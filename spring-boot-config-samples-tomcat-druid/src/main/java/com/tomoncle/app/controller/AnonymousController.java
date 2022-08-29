@@ -32,6 +32,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/test")
+@SuppressWarnings("all")
 public class AnonymousController {
 
     @PersistenceContext

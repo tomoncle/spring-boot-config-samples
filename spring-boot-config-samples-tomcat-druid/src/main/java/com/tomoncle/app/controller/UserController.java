@@ -16,24 +16,27 @@
 
 package com.tomoncle.app.controller;
 
+import com.tomoncle.app.common.DistributedLock;
 import com.tomoncle.app.entity.Card;
 import com.tomoncle.app.entity.User;
 import com.tomoncle.app.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.SneakyThrows;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
 
     @GetMapping
@@ -50,6 +53,31 @@ public class UserController {
         card.setBackName(backName);
         user.setCard(card);
         return userService.users(user, page, rows);
+    }
+
+
+    @GetMapping("/get")
+    public User get(@RequestParam("backName") String backName) {
+        User user = new User();
+        Card card = new Card();
+        card.setBackName(backName);
+        user.setCard(card);
+        return userService.findOne(Example.of(user));
+    }
+
+
+    @SneakyThrows
+    @PostMapping("/save")
+    public User save(User user) {
+        String certificate = UUID.randomUUID().toString().replaceAll("-", "");
+        System.out.println(Thread.currentThread().getName() + " 入参信息: " + user.toString() + " :-: " + certificate);
+        DistributedLock lock = DistributedLock.getInstance();
+        if (lock.lock(user.getUsername(), 60)) {
+            User data = userService.saveUnique(user);
+            lock.unlock(user.getUsername());
+            return data;
+        }
+        throw new RuntimeException("请求超时，请重试");
     }
 
 

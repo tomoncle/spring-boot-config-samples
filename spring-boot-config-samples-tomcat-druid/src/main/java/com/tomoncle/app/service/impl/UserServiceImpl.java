@@ -19,10 +19,7 @@ package com.tomoncle.app.service.impl;
 import com.tomoncle.app.entity.User;
 import com.tomoncle.app.service.UserService;
 import com.tomoncle.config.springboot.jpa.service.impl.JpaCommonServiceImpl;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +27,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Random;
 
 
 @Service
@@ -66,5 +64,18 @@ public class UserServiceImpl extends JpaCommonServiceImpl<User, Integer> impleme
         Pageable pageable = PageRequest.of((page - 1), rows);
         List<User> resultList = (List<User>) query.getResultList();
         return new PageImpl<>(resultList, pageable, total);
+    }
+
+    @Override
+    public User saveUnique(User user) {
+        User param = new User();
+        param.setUsername(user.getUsername());
+        List<User> users = this.findAll(Example.of(param));
+        if (users.size() > 0) {
+            return users.get(0);
+        } else {
+            user.setId(new Random().nextInt(10000));
+            return this.save(user);
+        }
     }
 }
