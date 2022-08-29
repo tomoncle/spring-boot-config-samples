@@ -32,8 +32,20 @@ import java.util.UUID;
  */
 public final class DistributedLock {
 
-    private static final ThreadLocal<String> localCertificates = new ThreadLocal<>();
     private Logger logger = LoggerFactory.getLogger(DistributedLock.class);
+    // 定义 ThreadLocal 存储当前线程的加锁凭据
+    private static final ThreadLocal<String> localCertificates;
+    // 初始化连接池
+    private static final JedisPool jedisPool;
+
+    static {
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxIdle(10);
+        jedisPoolConfig.setMinIdle(10);
+        jedisPoolConfig.setMaxTotal(50);
+        jedisPool = new JedisPool(jedisPoolConfig);
+        localCertificates = new ThreadLocal<>();
+    }
 
     private DistributedLock() {
     }
@@ -45,7 +57,7 @@ public final class DistributedLock {
     private Jedis jedis() {
         // Jedis jedis = InnerClass.jedisPool.getResource(); // 获取连接
         // jedis.close(); // 释放到连接池
-        return InnerClass.jedisPool.getResource();
+        return jedisPool.getResource();
     }
 
     /**
@@ -130,17 +142,8 @@ public final class DistributedLock {
     }
 
     private static class InnerClass {
+        // 使用内部静态类实现单例
         private static final DistributedLock distributedLock = new DistributedLock();
-
-        private static final JedisPool jedisPool = getJedisPool();
-
-        private static JedisPool getJedisPool() {
-            JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-            jedisPoolConfig.setMaxIdle(10);
-            jedisPoolConfig.setMinIdle(10);
-            jedisPoolConfig.setMaxTotal(50);
-            return new JedisPool(jedisPoolConfig);
-        }
 
     }
 
