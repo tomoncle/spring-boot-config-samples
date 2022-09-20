@@ -18,7 +18,6 @@ package com.tomoncle.app.api;
 
 import com.tomoncle.config.springboot.zuul.config.RouteUpdater;
 import com.tomoncle.config.springboot.zuul.mapper.MemoryStorageRouteMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,29 +27,33 @@ import org.springframework.web.bind.annotation.RestController;
  * 维护动态的代理列表
  */
 @RestController("/-/reload")
-public class DynamicProxyController {
+public class ProxyController {
 
-    @Autowired
-    MemoryStorageRouteMapper storageRouteMapper;
+    private final MemoryStorageRouteMapper storageRouteMapper;
 
-    @Autowired
-    RouteUpdater routeUpdater;
+    private final RouteUpdater routeUpdater;
+
+    public ProxyController(MemoryStorageRouteMapper storageRouteMapper, RouteUpdater routeUpdater) {
+        this.storageRouteMapper = storageRouteMapper;
+        this.routeUpdater = routeUpdater;
+    }
 
     @PostMapping
-    public String refresh(){
+    public String refresh() {
         routeUpdater.refresh();
         return "ok!";
     }
 
     /**
      * 动态更新 zuul网关列表
-     * @param path  qq
-     * @param url   https://www.qq.com/
-     * @return  更新后可以使用 http://{host}:{port}/{servletContentPath}/qq/ 来代理 https://www.qq.com/
+     *
+     * @param path qq
+     * @param url  https://www.qq.com/
+     * @return 更新后可以使用 http://{host}:{port}/{servletContentPath}/qq/ 来代理 https://www.qq.com/
      */
     @PutMapping
-    public boolean update(@RequestParam("path") String path, @RequestParam("url") String url){
-        storageRouteMapper.addOrReplace(String.format("/%s/**",path), url);
+    public boolean update(@RequestParam("path") String path, @RequestParam("url") String url) {
+        storageRouteMapper.addOrReplace(String.format("/%s/**", path), url);
         routeUpdater.refresh();
         return true;
     }

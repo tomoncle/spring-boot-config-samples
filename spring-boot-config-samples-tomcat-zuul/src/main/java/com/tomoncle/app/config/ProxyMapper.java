@@ -23,7 +23,6 @@ import com.tomoncle.config.springboot.zuul.mapper.MemoryStorageRouteMapper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletRequest;
@@ -38,22 +37,20 @@ import java.util.Map;
  * http://127.0.0.1:8090/proxy/static/?region=test 返回 test 环境的服务
  */
 @Component
-public class RequestRefreshRouteMapper implements IRouteMapper {
-    private static Logger logger = LogManager.getLogger(RequestRefreshRouteMapper.class);
+public class ProxyMapper implements IRouteMapper {
+    private static Logger logger = LogManager.getLogger(ProxyMapper.class);
 
     private static final Map<String, String> LOCAL_DB = new HashMap<>();
+    private final MemoryStorageRouteMapper storageRouteMapper;
+    private final RouteUpdater routeUpdater;
 
-    public RequestRefreshRouteMapper() {
+    public ProxyMapper(MemoryStorageRouteMapper storageRouteMapper, RouteUpdater routeUpdater) {
         LOCAL_DB.put("test", "http://192.168.116.18:8080/");
         LOCAL_DB.put("dev", "http://172.16.102.16:8080/");
+        this.storageRouteMapper = storageRouteMapper;
+        this.routeUpdater = routeUpdater;
     }
 
-
-    @Autowired
-    MemoryStorageRouteMapper storageRouteMapper;
-
-    @Autowired
-    RouteUpdater routeUpdater;
 
     @Override
     public void refresh(ServletRequest servletRequest, ServletResponse servletResponse) {
