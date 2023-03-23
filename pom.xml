@@ -42,6 +42,8 @@
         <module>spring-boot-config-samples-tomcat-ldap</module>
         <module>spring-boot-config-samples-tomcat-freemarker</module>
         <module>spring-boot-config-samples-web-freemarker</module>
+        <module>spring-boot-config-samples-web-security</module>
+        <module>spring-boot-config-samples-tomcat-jpa</module>
     </modules>
 
     <!--
