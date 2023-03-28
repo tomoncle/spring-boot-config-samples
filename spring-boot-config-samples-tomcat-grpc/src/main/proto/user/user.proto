@@ -1,0 +1,46 @@
+// 当不同的平台(python -> java)通过grpc协议进行通讯时，记得使用相同的proto文件进行生成对应的class
+//
+// 代码生成
+//    mvn protobuf:compile
+//    mvn protobuf:compile-custom
+//    mvn compile
+//
+// Python 代码生成
+//    进入 user.proto 所在的目录，执行以下命令：
+//    python -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I. user.proto
+//
+
+// 协议版本
+syntax = "proto3";
+
+// 生成多个文件
+option java_multiple_files = true;
+// 生成文件的目录
+option java_package = "com.tomoncle.app.web.grpc.proto.user";
+// 生成的文件名称
+option java_outer_classname = "UserProto";
+// 生成类的前缀, 在UserProto类中有使用
+option objc_class_prefix = "HLW";
+
+// 相对于 /src/main/proto 目录的位置, 即当前 .proto 文件所在的包名或目录名称
+package user;
+
+// 定义user服务
+service User {
+  // 定义的方法入参和出参都为 对象
+  rpc SayHi(Request) returns (Response) {}
+}
+
+// 结构体 定义格式：message Xxx{}
+message Request{
+  // 第一个参数 name,  = 1 表示第一个参数位置
+  string name = 1;
+}
+
+// 结构体 定义格式：message Xxx{}
+message Response {
+  // 第一个参数 code,  = 1 表示第一个参数位置
+  int32  code = 1;
+  // 第二个参数 data,  = 2 表示第二个参数位置
+  string data = 2;
+}
