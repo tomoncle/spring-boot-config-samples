@@ -34,14 +34,29 @@ public class Permission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "varchar(128) DEFAULT NULL COMMENT '资源路径匹配, 例如：/api/v1/users/**'")
     private String pattern;
+
+    @Column(columnDefinition = "varchar(128) DEFAULT NULL COMMENT '按钮匹配, 例如：sys:user:list'")
+    private String authorize;
+
+    @Column(columnDefinition = "varchar(64) DEFAULT NULL COMMENT '权限名称'")
+    private String name;
+
+    @Column(columnDefinition = "varchar(128) DEFAULT NULL COMMENT '权限描述'")
     private String description;
+
+    @Column(columnDefinition = "varchar(128) DEFAULT NULL COMMENT '权限图标路径'")
     private String iconCls;
+
+    @Column(columnDefinition = "varchar(16) DEFAULT 'closed' COMMENT '权限状态：open, closed'")
     @Enumerated(EnumType.STRING)
     private STATE state;
+
+    @Column(columnDefinition = "varchar(16) DEFAULT 'PAGE' COMMENT '资源类型：MENU, PAGE, BUTTON'")
     @Enumerated(EnumType.STRING)
     private TYPE resourceType;
-    // 父级资源ID
+
     @ManyToOne
     private Permission permission;
 

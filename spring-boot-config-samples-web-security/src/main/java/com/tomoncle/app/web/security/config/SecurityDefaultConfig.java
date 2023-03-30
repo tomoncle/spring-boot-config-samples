@@ -17,6 +17,7 @@
 package com.tomoncle.app.web.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tomoncle.app.web.security.entity.User;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +28,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -106,6 +109,9 @@ class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler
     }
 }
 
+/**
+ * 自定义认证失败，处理
+ */
 class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
@@ -121,6 +127,9 @@ class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
     }
 }
 
+/**
+ * 自定义授权失败，处理
+ */
 class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
@@ -135,4 +144,24 @@ class CustomAccessDeniedHandler implements AccessDeniedHandler {
         response.getOutputStream().print(resBody);
     }
 
+}
+
+
+/**
+ * 方法级，权限验证
+ */
+@Configuration("sysExpr")
+class CustomSecurityExpressionRoot {
+
+    public boolean hasAuthority(String authority) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        AntPathMatcher pathMatcher = new AntPathMatcher();
+        for (String authorize : user.getAuthorizes()) {
+            if (pathMatcher.match(authorize, authority)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

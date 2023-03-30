@@ -22,6 +22,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -62,6 +63,11 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    /**
+     * 返回路径权限
+     *
+     * @return authorities
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -69,6 +75,24 @@ public class User implements UserDetails {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return authorities;
+    }
+
+    /**
+     * 获取按钮权限
+     *
+     * @return authorizes
+     */
+    public List<String> getAuthorizes() {
+        List<String> authorizes = new ArrayList<>();
+        for (Role role : roles) {
+            for (Permission permission : role.getPermissions()) {
+                if (!StringUtils.hasText(permission.getAuthorize())) {
+                    continue;
+                }
+                authorizes.add(permission.getAuthorize());
+            }
+        }
+        return authorizes;
     }
 
     /**

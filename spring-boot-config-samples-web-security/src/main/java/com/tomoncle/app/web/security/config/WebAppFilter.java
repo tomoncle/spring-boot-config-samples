@@ -74,7 +74,7 @@ public class WebAppFilter implements FilterInvocationSecurityMetadataSource {
         List<Permission> permissionList = permissionRepository.findAll();
         Set<String> attributeNames = new HashSet<>();
         for (Permission permission : permissionList) {
-            if (permission.getRoles().size() == 0) {
+            if (permission.getRoles().size() == 0 || !StringUtils.hasText(permission.getPattern())) {
                 continue;
             }
             if (!pathMatcher.match(permission.getPattern(), requestUrl)) {
