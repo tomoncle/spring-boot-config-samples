@@ -1,0 +1,51 @@
+<!--
+  ~ Copyright 2018 tomoncle
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!--<property name="log_dir" value="d://data//logs//${system.key}" />-->
+    <property name="log_dir" value="${HOME:-/var}/log/spring-boot-config-samples/slf4j"/>
+    <property name="maxHistory" value="30"/>
+    <property name="maxFileSize" value="500MB"/>
+    <property name="totalSizeCap" value="20GB"/>
+
+    <!--0. 日志格式和颜色渲染 -->
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr"
+                    converterClass="com.tomoncle.app.logger.color.ColorConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="com.tomoncle.app.logger.color.WhitespaceConverter"/>
+    <!-- 彩色日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(%5p) %magenta(${PID:- }) --- %magenta([%12.12t]) %cyan(%-40.40logger{39}) %clr(: -->){faint} %m%n%wEx"
+    />
+
+    <!--    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %magenta([%thread]) %clr(%-5level) %cyan(%logger{15}) - %msg%n"/>-->
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">          
+            <level>trace</level>
+        </filter>
+        <encoder>       
+            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>    
+            <charset>UTF-8</charset>     
+        </encoder>
+    </appender>
+
+    <logger name="com.tomoncle.app" level="STDOUT"/>
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
