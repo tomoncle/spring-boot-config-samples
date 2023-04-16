@@ -22,8 +22,9 @@ import com.tomoncle.app.web.jpa.dao.UserRepository;
 import com.tomoncle.app.web.jpa.entity.Permission;
 import com.tomoncle.app.web.jpa.entity.Role;
 import com.tomoncle.app.web.jpa.entity.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ import java.util.List;
  */
 @RestController
 public class RestApiController {
-
+    private static Logger logger = LogManager.getLogger(RestApiController.class);
     private final UserRepository userRepository;
     private final PermissionRepository permissionRepository;
     private final RoleRepository roleRepository;
@@ -43,9 +44,42 @@ public class RestApiController {
         this.roleRepository = roleRepository;
     }
 
+    /**
+     * qps 3000/s
+     *
+     * @return String
+     */
+    @GetMapping("/healthy")
+    String healthy() {
+        logger.info(Thread.currentThread().getName());
+        return "ok";
+    }
+
+    /**
+     * qps 600/s
+     *
+     * @return List<User>
+     */
     @GetMapping("/users")
     List<User> users() {
+        logger.info(Thread.currentThread().getName());
         return userRepository.findAll();
+    }
+
+    /**
+     * tps 1000/s
+     *
+     * @param user json
+     * @return user
+     */
+    @PostMapping("/users")
+    User saveUser(@RequestBody User user) {
+        return userRepository.save(user);
+    }
+
+    @DeleteMapping("/users")
+    void deleteUser() {
+        userRepository.deleteAll();
     }
 
     @GetMapping("/roles")
