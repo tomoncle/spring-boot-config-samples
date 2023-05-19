@@ -47,6 +47,7 @@
         <module>spring-boot-config-samples-tomcat-grpc</module>
         <module>spring-boot-config-samples-tomcat-logging</module>
         <module>spring-boot-config-samples-tomcat-mybatis</module>
+        <module>spring-boot-config-samples-tomcat-mq</module>
     </modules>
 
     <!--
