@@ -20,6 +20,7 @@ import com.rabbitmq.client.*;
 import com.tomoncle.test.mq.SingletonConn;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -30,22 +31,25 @@ public class QueueConsumer {
     private final static String QUEUE_NAME = "Q1";
 
     public static void main(String[] args) throws IOException, TimeoutException {
-        try (Connection connection = SingletonConn.get().getFactory().newConnection();
-             Channel channel = connection.createChannel()) {
+        Connection connection = SingletonConn.get().getFactory().newConnection();
+        Channel channel = connection.createChannel();
 
-            channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-            System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+        channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
-            // 定义回调函数
-            Consumer consumerHandler = new DefaultConsumer(channel) {
-                @Override
-                public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
-                    String msg = new String(body);
-                    System.out.println(msg);
-                }
-            };
-            //consumer参数是消息接收之后的处理方法
-            channel.basicConsume(QUEUE_NAME, true, consumerHandler);
-        }
+        // 定义回调函数
+        Consumer consumerHandler = new DefaultConsumer(channel) {
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
+                String msg = new String(body, StandardCharsets.UTF_8);
+                System.out.println("\n [x] Received 'consumerTag : " + consumerTag
+                        + "', msg :' " + msg
+                        + "', envelope: '" + envelope
+                        + "', properties : '" + properties + "'");
+            }
+        };
+        //consumer参数是消息接收之后的处理方法
+        channel.basicConsume(QUEUE_NAME, true, consumerHandler);
+
     }
 }
