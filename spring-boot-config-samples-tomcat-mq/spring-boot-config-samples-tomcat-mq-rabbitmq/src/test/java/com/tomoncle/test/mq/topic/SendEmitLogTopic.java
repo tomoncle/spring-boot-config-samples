@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018 tomoncle
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.tomoncle.test.mq.topic;
 
 import com.rabbitmq.client.BuiltinExchangeType;
@@ -5,22 +21,13 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.tomoncle.test.mq.SingletonConn;
+import org.junit.Test;
 
 import java.nio.charset.StandardCharsets;
 
 public class SendEmitLogTopic {
 
     private static final String EXCHANGE_NAME = "topic_logs";
-
-
-    public static void main(String[] argv) throws Exception {
-        for (int i = 0; i < 10; i++) {
-            sendToAnonymousQueue();
-//        sendToDesignatedQueue();
-        }
-
-    }
-
 
     /**
      * 发布消息到交换机，发送消息到匿名队列 "缺点：没有消费者，消息会丢失"
@@ -29,7 +36,8 @@ public class SendEmitLogTopic {
      * <p>
      * 如果发布消息时，没有队列绑定到交换机上（没有和 交换机-routingKey 绑定的队列），消息会丢失
      */
-    private static void sendToAnonymousQueue() throws Exception {
+    @Test
+    public void sendToAnonymousQueue() throws Exception {
         ConnectionFactory factory = SingletonConn.get().getFactory();
         try (Connection connection = factory.newConnection();
              Channel channel = connection.createChannel()) {
@@ -45,7 +53,6 @@ public class SendEmitLogTopic {
             channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes(StandardCharsets.UTF_8));
             System.out.println(" [x] Sent '" + routingKey + "':'" + message + "'");
 
-//            Thread.sleep(100000);
         }
     }
 
@@ -56,7 +63,8 @@ public class SendEmitLogTopic {
      * <p>
      * 交换机根据路由的key, 将消息路由到队列(和 交换机-routingKey 绑定的队列)
      */
-    private static void sendToDesignatedQueue() throws Exception {
+    @Test
+    public void sendToDesignatedQueue() throws Exception {
         final String QUEUE_NAME = "temp-topic-queue";
         ConnectionFactory factory = SingletonConn.get().getFactory();
 
@@ -77,8 +85,6 @@ public class SendEmitLogTopic {
             // 发布消息到指定交换机上，指定路由的key
             channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes(StandardCharsets.UTF_8));
             System.out.println(" [x] Sent '" + routingKey + "':'" + message + "'");
-
-//            Thread.sleep(100000);
         }
     }
 

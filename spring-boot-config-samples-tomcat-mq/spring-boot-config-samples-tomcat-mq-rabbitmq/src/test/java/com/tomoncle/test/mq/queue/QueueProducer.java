@@ -17,7 +17,10 @@
 package com.tomoncle.test.mq.queue;
 
 
-import com.rabbitmq.client.*;
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.ConfirmListener;
+import com.rabbitmq.client.Connection;
 import com.tomoncle.test.mq.SingletonConn;
 import lombok.SneakyThrows;
 import org.junit.Test;
@@ -35,7 +38,7 @@ import java.io.IOException;
  * https://www.rabbitmq.com/getstarted.html
  * https://www.rabbitmq.com/tutorials/tutorial-one-java.html
  */
-public class SimpleQueueTest {
+public class QueueProducer {
 
 
     private final static String QUEUE_NAME = "Q1";
@@ -43,10 +46,8 @@ public class SimpleQueueTest {
     @SneakyThrows
     @Test
     public void createQueue() {
-        try (
-                Connection connection = SingletonConn.get().getFactory().newConnection();
-                Channel channel = connection.createChannel()
-        ) {
+        try (Connection connection = SingletonConn.get().getFactory().newConnection();
+             Channel channel = connection.createChannel()) {
             /*
              * @param queue      创建一个队列，有就忽略，没有就创建
              * @param durable    持久化队列
@@ -61,10 +62,8 @@ public class SimpleQueueTest {
     @SneakyThrows
     @Test
     public void dropQueue() {
-        try (
-                Connection connection = SingletonConn.get().getFactory().newConnection();
-                Channel channel = connection.createChannel()
-        ) {
+        try (Connection connection = SingletonConn.get().getFactory().newConnection();
+             Channel channel = connection.createChannel()) {
             /*
              * @param queue      创建一个队列，有就忽略，没有就创建
              * @param durable    持久化队列
@@ -80,10 +79,8 @@ public class SimpleQueueTest {
     @SneakyThrows
     @Test
     public void producer() {
-        try (
-                Connection connection = SingletonConn.get().getFactory().newConnection();
-                Channel channel = connection.createChannel()
-        ) {
+        try (Connection connection = SingletonConn.get().getFactory().newConnection();
+             Channel channel = connection.createChannel()) {
 
             /*
              * @param queue      创建一个队列，有就忽略，没有就创建
@@ -107,10 +104,8 @@ public class SimpleQueueTest {
     @SneakyThrows
     @Test
     public void producer2() {
-        try (
-                Connection connection = SingletonConn.get().getFactory().newConnection();
-                Channel channel = connection.createChannel()
-        ) {
+        try (Connection connection = SingletonConn.get().getFactory().newConnection();
+             Channel channel = connection.createChannel()) {
             // 创建队列
             channel.queueDeclare(QUEUE_NAME, true, false, false, null);
             // 开启发布确认
@@ -138,27 +133,5 @@ public class SimpleQueueTest {
 
         }
 
-    }
-
-    @SneakyThrows
-    @Test
-    public void consumer() {
-        try (
-                Connection connection = SingletonConn.get().getFactory().newConnection();
-                Channel channel = connection.createChannel()
-        ) {
-            Consumer consumerHandler = new DefaultConsumer(channel) {
-                @Override
-                public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
-                    String msg = new String(body);
-                    System.out.println(msg);
-                }
-            };
-            channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-
-            //consumer参数是消息接收之后的处理方法
-            channel.basicConsume(QUEUE_NAME, true, consumerHandler);
-            Thread.sleep(1000 * 60);
-        }
     }
 }
