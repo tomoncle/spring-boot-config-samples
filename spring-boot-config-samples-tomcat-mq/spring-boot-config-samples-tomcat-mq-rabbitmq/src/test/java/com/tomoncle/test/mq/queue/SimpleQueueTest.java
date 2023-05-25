@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.tomoncle.test.mq;
+package com.tomoncle.test.mq.queue;
 
 
 import com.rabbitmq.client.*;
+import com.tomoncle.test.mq.SingletonConn;
 import lombok.SneakyThrows;
 import org.junit.Test;
 
@@ -43,7 +44,7 @@ public class SimpleQueueTest {
     @Test
     public void createQueue() {
         try (
-                Connection connection = MqConfig.factory.newConnection();
+                Connection connection = SingletonConn.get().getFactory().newConnection();
                 Channel channel = connection.createChannel()
         ) {
             /*
@@ -61,7 +62,7 @@ public class SimpleQueueTest {
     @Test
     public void dropQueue() {
         try (
-                Connection connection = MqConfig.factory.newConnection();
+                Connection connection = SingletonConn.get().getFactory().newConnection();
                 Channel channel = connection.createChannel()
         ) {
             /*
@@ -80,7 +81,7 @@ public class SimpleQueueTest {
     @Test
     public void producer() {
         try (
-                Connection connection = MqConfig.factory.newConnection();
+                Connection connection = SingletonConn.get().getFactory().newConnection();
                 Channel channel = connection.createChannel()
         ) {
 
@@ -107,7 +108,7 @@ public class SimpleQueueTest {
     @Test
     public void producer2() {
         try (
-                Connection connection = MqConfig.factory.newConnection();
+                Connection connection = SingletonConn.get().getFactory().newConnection();
                 Channel channel = connection.createChannel()
         ) {
             // 创建队列
@@ -143,7 +144,7 @@ public class SimpleQueueTest {
     @Test
     public void consumer() {
         try (
-                Connection connection = MqConfig.factory.newConnection();
+                Connection connection = SingletonConn.get().getFactory().newConnection();
                 Channel channel = connection.createChannel()
         ) {
             Consumer consumerHandler = new DefaultConsumer(channel) {

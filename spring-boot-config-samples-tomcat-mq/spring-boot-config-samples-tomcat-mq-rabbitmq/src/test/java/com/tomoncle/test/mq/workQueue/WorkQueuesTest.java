@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.tomoncle.test.mq;
+package com.tomoncle.test.mq.workQueue;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.DeliverCallback;
 import com.rabbitmq.client.MessageProperties;
+import com.tomoncle.test.mq.SingletonConn;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -53,7 +54,7 @@ public class WorkQueuesTest {
     @Test
     public void task() {
         try (
-                Connection connection = MqConfig.factory.newConnection();
+                Connection connection = SingletonConn.get().getFactory().newConnection();
                 Channel channel = connection.createChannel()
         ) {
             channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
@@ -71,7 +72,7 @@ public class WorkQueuesTest {
     @SneakyThrows
     @Test
     public void work1() {
-        final Connection connection = MqConfig.factory.newConnection();
+        final Connection connection = SingletonConn.get().getFactory().newConnection();
         final Channel channel = connection.createChannel();
 
         channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
@@ -96,7 +97,7 @@ public class WorkQueuesTest {
     @SneakyThrows
     @Test
     public void work2() {
-        final Connection connection = MqConfig.factory.newConnection();
+        final Connection connection = SingletonConn.get().getFactory().newConnection();
         final Channel channel = connection.createChannel();
 
         channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
@@ -120,7 +121,7 @@ public class WorkQueuesTest {
     @SneakyThrows
     @Test
     public void work3() {
-        final Connection connection = MqConfig.factory.newConnection();
+        final Connection connection = SingletonConn.get().getFactory().newConnection();
         final Channel channel = connection.createChannel();
 
         channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
@@ -153,7 +154,7 @@ public class WorkQueuesTest {
 
     @SneakyThrows
     private void work() {
-        final Connection connection = MqConfig.factory.newConnection();
+        final Connection connection = SingletonConn.get().getFactory().newConnection();
         final Channel channel = connection.createChannel();
 
         channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
