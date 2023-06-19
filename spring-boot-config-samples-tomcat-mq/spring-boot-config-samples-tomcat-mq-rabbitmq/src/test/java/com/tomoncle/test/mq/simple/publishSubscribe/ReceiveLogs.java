@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 tomoncle
+ * Copyright 2018 tomoncle
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.tomoncle.test.mq.publishSubscribe;
+package com.tomoncle.test.mq.simple.publishSubscribe;
 
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.DeliverCallback;
-import com.tomoncle.test.mq.SingletonConn;
+import com.tomoncle.test.mq.simple.SingletonConn;
 import org.junit.Test;
 
 import java.io.IOException;
