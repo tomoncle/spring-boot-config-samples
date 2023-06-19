@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.tomoncle.test.mq.queue;
+package com.tomoncle.test.mq.simple.queue;
 
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.ConfirmListener;
 import com.rabbitmq.client.Connection;
-import com.tomoncle.test.mq.SingletonConn;
+import com.tomoncle.test.mq.simple.SingletonConn;
 import lombok.SneakyThrows;
 import org.junit.Test;
 

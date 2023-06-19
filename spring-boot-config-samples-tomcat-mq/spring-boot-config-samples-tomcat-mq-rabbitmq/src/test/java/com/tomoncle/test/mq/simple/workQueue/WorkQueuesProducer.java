@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.tomoncle.test.mq.workQueue;
+package com.tomoncle.test.mq.simple.workQueue;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.MessageProperties;
-import com.tomoncle.test.mq.SingletonConn;
+import com.tomoncle.test.mq.simple.SingletonConn;
 import lombok.SneakyThrows;
 import org.junit.Test;
 

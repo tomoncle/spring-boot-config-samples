@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.tomoncle.test.mq.topic;
+package com.tomoncle.test.mq.simple.topic;
 
 import com.rabbitmq.client.*;
-import com.tomoncle.test.mq.SingletonConn;
+import com.tomoncle.test.mq.simple.SingletonConn;
 
 import java.nio.charset.StandardCharsets;
 
