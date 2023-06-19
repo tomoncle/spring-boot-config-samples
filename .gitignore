@@ -38,3 +38,9 @@ buildNumber.properties
 将删除 pom.xml
 将删除 spring-boot-config-samples.iml
 将删除 src/
+
+
+*~
+.DS_Store
+
+spring-boot-config-samples-tomcat-grpc/src/main/java/com/tomoncle/app/web/grpc/proto/

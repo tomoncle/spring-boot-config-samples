@@ -25,8 +25,6 @@ import com.tomoncle.test.mq.simple.SingletonConn;
 import lombok.SneakyThrows;
 import org.junit.Test;
 
-import java.io.IOException;
-
 
 /**
  * 简单队列：
@@ -43,6 +41,9 @@ public class QueueProducer {
 
     private final static String QUEUE_NAME = "Q1";
 
+    /**
+     * 创建一个队列
+     */
     @SneakyThrows
     @Test
     public void createQueue() {
@@ -59,6 +60,9 @@ public class QueueProducer {
         }
     }
 
+    /**
+     * 删除一个队列
+     */
     @SneakyThrows
     @Test
     public void dropQueue() {
@@ -76,6 +80,9 @@ public class QueueProducer {
         }
     }
 
+    /**
+     * 自动ACK
+     */
     @SneakyThrows
     @Test
     public void producer() {
@@ -101,6 +108,9 @@ public class QueueProducer {
 
     }
 
+    /**
+     * 手动ACK
+     */
     @SneakyThrows
     @Test
     public void producer2() {
@@ -113,13 +123,13 @@ public class QueueProducer {
             // 开启确认监听
             channel.addConfirmListener(new ConfirmListener() {
                 @Override
-                public void handleAck(long deliveryTag, boolean multiple) throws IOException {
-                    System.out.println("   ACK: " + deliveryTag + " 是否批量：" + multiple);
+                public void handleAck(long deliveryTag, boolean multiple) {
+                    System.out.println("✅OK-ACK: " + deliveryTag + " 是否批量：" + multiple);
                 }
 
                 @Override
-                public void handleNack(long deliveryTag, boolean multiple) throws IOException {
-                    System.out.println("NO-ACK: " + deliveryTag + " 是否批量：" + multiple);
+                public void handleNack(long deliveryTag, boolean multiple) {
+                    System.out.println("❌NO-ACK: " + deliveryTag + " 是否批量：" + multiple);
                 }
             });
 
@@ -129,7 +139,7 @@ public class QueueProducer {
                 System.out.println("[x] Sent '" + message + "'");
             }
 
-            Thread.sleep(Integer.MAX_VALUE);
+            Thread.sleep(1000);
 
         }
 
