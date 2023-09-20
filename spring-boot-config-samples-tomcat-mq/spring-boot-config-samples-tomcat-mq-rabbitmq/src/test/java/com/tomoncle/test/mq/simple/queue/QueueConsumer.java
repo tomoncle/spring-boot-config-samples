@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 tomoncle
+ * Copyright 2023 tomoncle
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,6 @@ package com.tomoncle.test.mq.simple.queue;
 
 import com.rabbitmq.client.*;
 import com.tomoncle.test.mq.simple.SingletonConn;
-import lombok.SneakyThrows;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -32,129 +30,22 @@ public class QueueConsumer {
     private final static String QUEUE_NAME = "Q1";
 
     public static void main(String[] args) throws IOException, TimeoutException {
-        try (Connection connection = SingletonConn.get().getFactory().newConnection();
-             Channel channel = connection.createChannel()) {
+        Connection connection = SingletonConn.get().getFactory().newConnection();
+        Channel channel = connection.createChannel();
 
-            channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-            System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+        channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
-            // 定义回调函数
-            Consumer consumerHandler = new DefaultConsumer(channel) {
-                @Override
-                public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
-                    String msg = new String(body);
-                    System.out.println(msg);
-                }
-            };
-            //consumer参数是消息接收之后的处理方法
-            channel.basicConsume(QUEUE_NAME, true, consumerHandler);
-        }
+        // 定义回调函数
+        Consumer consumerHandler = new DefaultConsumer(channel) {
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
+                String msg = new String(body);
+                System.out.println(msg);
+            }
+        };
+        //consumer参数是消息接收之后的处理方法
+        channel.basicConsume(QUEUE_NAME, true, consumerHandler);
     }
 
-    /**
-     * 简单队列：
-     * <p>
-     * 生产者 -> 队列 -> 消费者
-     * <p>
-     * 一个生产者对应一个消费者
-     * <p>
-     * https://www.rabbitmq.com/getstarted.html
-     * https://www.rabbitmq.com/tutorials/tutorial-one-java.html
-     */
-    public static class QueueProducer {
-
-        private final static String QUEUE_NAME = "Q1";
-
-        @SneakyThrows
-        @Test
-        public void createQueue() {
-            try (Connection connection = SingletonConn.get().getFactory().newConnection();
-                 Channel channel = connection.createChannel()) {
-                /*
-                 * @param queue      创建一个队列，有就忽略，没有就创建
-                 * @param durable    持久化队列
-                 * @param exclusive  独占队列，只能当前队列使用
-                 * @param autoDelete 自动删除
-                 * @param arguments  自定义参数
-                 */
-                channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-            }
-        }
-
-        @SneakyThrows
-        @Test
-        public void dropQueue() {
-            try (Connection connection = SingletonConn.get().getFactory().newConnection();
-                 Channel channel = connection.createChannel()) {
-                /*
-                 * @param queue      创建一个队列，有就忽略，没有就创建
-                 * @param durable    持久化队列
-                 * @param exclusive  独占队列，只能当前队列使用
-                 * @param autoDelete 自动删除
-                 * @param arguments  自定义参数
-                 */
-                AMQP.Queue.DeleteOk deleteOk = channel.queueDelete("queue-1");
-                System.out.println(deleteOk.getMessageCount());
-            }
-        }
-
-        @SneakyThrows
-        @Test
-        public void producer() {
-            try (Connection connection = SingletonConn.get().getFactory().newConnection();
-                 Channel channel = connection.createChannel()) {
-
-                /*
-                 * @param queue      创建一个队列，有就忽略，没有就创建
-                 * @param durable    持久化队列
-                 * @param exclusive  独占队列，只能当前队列使用
-                 * @param autoDelete 自动删除
-                 * @param arguments  自定义参数
-                 */
-                channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-
-                for (int i = 0; i < 10; i++) {
-                    String message = "hello world " + i;
-                    channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-                    System.out.println("[x] Sent '" + message + "'");
-                }
-
-            }
-
-        }
-
-        @SneakyThrows
-        @Test
-        public void producer2() {
-            try (Connection connection = SingletonConn.get().getFactory().newConnection();
-                 Channel channel = connection.createChannel()) {
-                // 创建队列
-                channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-                // 开启发布确认
-                channel.confirmSelect();
-                // 开启确认监听
-                channel.addConfirmListener(new ConfirmListener() {
-                    @Override
-                    public void handleAck(long deliveryTag, boolean multiple) throws IOException {
-                        System.out.println("   ACK: " + deliveryTag + " 是否批量：" + multiple);
-                    }
-
-                    @Override
-                    public void handleNack(long deliveryTag, boolean multiple) throws IOException {
-                        System.out.println("NO-ACK: " + deliveryTag + " 是否批量：" + multiple);
-                    }
-                });
-
-                for (int i = 0; i < 10; i++) {
-                    String message = "hello world " + i;
-                    channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-                    System.out.println("[x] Sent '" + message + "'");
-                }
-
-                Thread.sleep(Integer.MAX_VALUE);
-
-            }
-
-        }
-    }
 }

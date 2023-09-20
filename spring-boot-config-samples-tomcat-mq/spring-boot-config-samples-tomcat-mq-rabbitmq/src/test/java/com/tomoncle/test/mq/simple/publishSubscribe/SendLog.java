@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 tomoncle
+ * Copyright 2023 tomoncle
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,18 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * @author tomoncle
+ *
+ *
+ * 发布订阅模式：
+ *
+ * 生产者 -> 交换机 -> 队列1 -> 消费者1
+ *                -> 队列2 -> 消费者2
+ *                -> 队列n -> 消费者n
+ *
+ * 生产者: 将消息发送到交换机，不需要关心具体发送到哪些队列，这个由交换机处理
+ * 交换机: 接收来自生产者的消息，另一方面，将它们推入队列。规则由交换器的类型(direct, topic, headers 和 fanout)定义.
+ * 队列 : 存储消息，当创建一个消费者时，消费者会使用一个队列（可以是临时创建的，也可以是持久的）绑定到交换机，使用此队列用来接收来自交换机到消息
+ * 消费者: 消费来自队列的消息
  */
 public class SendLog {
     private static final String EXCHANGE_NAME = "logs";

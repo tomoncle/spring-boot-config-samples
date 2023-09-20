@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 tomoncle
+ * Copyright 2023 tomoncle
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,11 +28,11 @@ public class SingletonConn {
 
     private SingletonConn() {
         factory = new ConnectionFactory();
-        factory.setHost("10.16.0.4");
+        factory.setHost("rabbitmq.svc.local");
         factory.setPort(5672);
         factory.setVirtualHost("/");
-        factory.setUsername("adm");
-        factory.setPassword("123456");
+        factory.setUsername("user");
+        factory.setPassword("password");
     }
 
     @SneakyThrows
