@@ -48,6 +48,7 @@
         <module>spring-boot-config-samples-tomcat-logging</module>
         <module>spring-boot-config-samples-tomcat-mybatis</module>
         <module>spring-boot-config-samples-tomcat-mq</module>
+        <module>spring-boot-config-samples-tomcat-tools</module>
     </modules>
 
     <!--
