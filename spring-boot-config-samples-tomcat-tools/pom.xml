@@ -28,11 +28,21 @@
     <artifactId>spring-boot-config-samples-tomcat-tools</artifactId>
     <dependencies>
         <!-- 类似于jq的语法库和工具JsonPath，它允许您使用类似于jq的语法来查询和操作JSON数据。
-        可以使用JsonPath来提取特定的JSON字段、过滤数据、执行计算等操作 -->
+        可以使用JsonPath来提取特定的JSON字段、过滤数据、执行计算等操作
+        https://github.com/json-path/JsonPath
+        -->
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
-            <version>2.6.0</version>
+            <version>2.8.0</version>
+        </dependency>
+        <!-- fastjson
+        fastjson 1.2.0之后的版本支持JSONPath。这是一个很强大的功能，可以在java框架中当作对象查询语言（OQL）来使用
+        https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.83</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
