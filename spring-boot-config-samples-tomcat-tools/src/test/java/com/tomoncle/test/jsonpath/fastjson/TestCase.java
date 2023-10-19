@@ -22,6 +22,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
 import org.junit.Test;
 
+import java.util.Optional;
+
 /**
  * https://github.com/alibaba/fastjson/wiki/JSONPath
  *
@@ -42,6 +44,11 @@ public class TestCase {
 
         String name = (String) JSONPath.eval(jsonObject, "$.users[1].name");
         System.out.println(name); // Jane
+
+        // 获取不存在的Key
+        JSONObject not = Optional.ofNullable((JSONObject) JSONPath.extract(json, "$.names")).orElse(new JSONObject());
+        System.out.println(not.keySet());
+
     }
 
     /**
