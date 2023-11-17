@@ -50,7 +50,10 @@
     </dependencies>
 
     <build>
-        <finalName>mailApp</finalName>
+        <!-- CMD: 只打包当选择的子模块 mvn clean package -pl child-module-1,child-module-2
+             mvn clean package -pl spring-boot-config-samples-tomcat-mail
+        -->
+        <finalName>mailApp-${spring.boot.config.version}</finalName>
         <!--jar包打包配置，引入配置文件-->
         <resources>
             <resource>
