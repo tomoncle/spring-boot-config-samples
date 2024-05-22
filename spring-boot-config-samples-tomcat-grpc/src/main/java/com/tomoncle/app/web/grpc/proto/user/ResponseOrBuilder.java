@@ -23,37 +23,37 @@ public interface ResponseOrBuilder extends
         // @@protoc_insertion_point(interface_extends:user.Response)
         com.google.protobuf.MessageOrBuilder {
 
-    /**
-     * <pre>
-     * 第一个参数 code,  = 1 表示第一个参数位置
-     * </pre>
-     *
-     * <code>int32 code = 1;</code>
-     *
-     * @return The code.
-     */
-    int getCode();
+  /**
+   * <pre>
+   * 第一个参数 code,  = 1 表示第一个参数位置
+   * </pre>
+   *
+   * <code>int32 code = 1;</code>
+   *
+   * @return The code.
+   */
+  int getCode();
 
-    /**
-     * <pre>
-     * 第二个参数 data,  = 2 表示第二个参数位置
-     * </pre>
-     *
-     * <code>string data = 2;</code>
-     *
-     * @return The data.
-     */
-    java.lang.String getData();
+  /**
+   * <pre>
+   * 第二个参数 data,  = 2 表示第二个参数位置
+   * </pre>
+   *
+   * <code>string data = 2;</code>
+   *
+   * @return The data.
+   */
+  java.lang.String getData();
 
-    /**
-     * <pre>
-     * 第二个参数 data,  = 2 表示第二个参数位置
-     * </pre>
-     *
-     * <code>string data = 2;</code>
-     *
-     * @return The bytes for data.
-     */
-    com.google.protobuf.ByteString
-    getDataBytes();
+  /**
+   * <pre>
+   * 第二个参数 data,  = 2 表示第二个参数位置
+   * </pre>
+   *
+   * <code>string data = 2;</code>
+   *
+   * @return The bytes for data.
+   */
+  com.google.protobuf.ByteString
+  getDataBytes();
 }

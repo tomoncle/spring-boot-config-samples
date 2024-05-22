@@ -20,63 +20,63 @@
 package com.tomoncle.app.web.grpc.proto.user;
 
 public final class UserProto {
-    static final com.google.protobuf.Descriptors.Descriptor
-            internal_static_user_Request_descriptor;
-    static final
+  static final com.google.protobuf.Descriptors.Descriptor
+          internal_static_user_Request_descriptor;
+  static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-            internal_static_user_Request_fieldAccessorTable;
-    static final com.google.protobuf.Descriptors.Descriptor
-            internal_static_user_Response_descriptor;
-    static final
+          internal_static_user_Request_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+          internal_static_user_Response_descriptor;
+  static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-            internal_static_user_Response_fieldAccessorTable;
-    private static com.google.protobuf.Descriptors.FileDescriptor
-            descriptor;
+          internal_static_user_Response_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.FileDescriptor
+          descriptor;
 
-    static {
-        java.lang.String[] descriptorData = {
-                "\n\017user/user.proto\022\004user\"\027\n\007Request\022\014\n\004na" +
-                        "me\030\001 \001(\t\"&\n\010Response\022\014\n\004code\030\001 \001(\005\022\014\n\004da" +
-                        "ta\030\002 \001(\t20\n\004User\022(\n\005SayHi\022\r.user.Request" +
-                        "\032\016.user.Response\"\000B9\n$com.tomoncle.app.w" +
-                        "eb.grpc.proto.userB\tUserProtoP\001\242\002\003HLWb\006p" +
-                        "roto3"
-        };
-        descriptor = com.google.protobuf.Descriptors.FileDescriptor
-                .internalBuildGeneratedFileFrom(descriptorData,
-                        new com.google.protobuf.Descriptors.FileDescriptor[]{
-                        });
-        internal_static_user_Request_descriptor =
-                getDescriptor().getMessageTypes().get(0);
-        internal_static_user_Request_fieldAccessorTable = new
-                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-                internal_static_user_Request_descriptor,
-                new java.lang.String[]{"Name",});
-        internal_static_user_Response_descriptor =
-                getDescriptor().getMessageTypes().get(1);
-        internal_static_user_Response_fieldAccessorTable = new
-                com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-                internal_static_user_Response_descriptor,
-                new java.lang.String[]{"Code", "Data",});
-    }
+  static {
+    java.lang.String[] descriptorData = {
+            "\n\017user/user.proto\022\004user\"\027\n\007Request\022\014\n\004na" +
+                    "me\030\001 \001(\t\"&\n\010Response\022\014\n\004code\030\001 \001(\005\022\014\n\004da" +
+                    "ta\030\002 \001(\t20\n\004User\022(\n\005SayHi\022\r.user.Request" +
+                    "\032\016.user.Response\"\000B9\n$com.tomoncle.app.w" +
+                    "eb.grpc.proto.userB\tUserProtoP\001\242\002\003HLWb\006p" +
+                    "roto3"
+    };
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+            .internalBuildGeneratedFileFrom(descriptorData,
+                    new com.google.protobuf.Descriptors.FileDescriptor[]{
+                    });
+    internal_static_user_Request_descriptor =
+            getDescriptor().getMessageTypes().get(0);
+    internal_static_user_Request_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+            internal_static_user_Request_descriptor,
+            new java.lang.String[]{"Name",});
+    internal_static_user_Response_descriptor =
+            getDescriptor().getMessageTypes().get(1);
+    internal_static_user_Response_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+            internal_static_user_Response_descriptor,
+            new java.lang.String[]{"Code", "Data",});
+  }
 
-    private UserProto() {
-    }
+  private UserProto() {
+  }
 
-    public static void registerAllExtensions(
-            com.google.protobuf.ExtensionRegistryLite registry) {
-    }
+  public static void registerAllExtensions(
+          com.google.protobuf.ExtensionRegistryLite registry) {
+  }
 
-    public static void registerAllExtensions(
-            com.google.protobuf.ExtensionRegistry registry) {
-        registerAllExtensions(
-                (com.google.protobuf.ExtensionRegistryLite) registry);
-    }
+  public static void registerAllExtensions(
+          com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+            (com.google.protobuf.ExtensionRegistryLite) registry);
+  }
 
-    public static com.google.protobuf.Descriptors.FileDescriptor
-    getDescriptor() {
-        return descriptor;
-    }
+  public static com.google.protobuf.Descriptors.FileDescriptor
+  getDescriptor() {
+    return descriptor;
+  }
 
-    // @@protoc_insertion_point(outer_class_scope)
+  // @@protoc_insertion_point(outer_class_scope)
 }

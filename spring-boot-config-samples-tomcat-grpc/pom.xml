@@ -55,13 +55,14 @@
             <artifactId>grpc-stub</artifactId>
             <version>1.54.0</version>
         </dependency>
+        <!-- necessary for Java 9+ -->
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>annotations-api</artifactId>
+            <version>6.0.53</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- grpc 配置 end -->
-        <!--        <dependency> &lt;!&ndash; necessary for Java 9+ &ndash;&gt;-->
-        <!--            <groupId>org.apache.tomcat</groupId>-->
-        <!--            <artifactId>annotations-api</artifactId>-->
-        <!--            <version>6.0.53</version>-->
-        <!--            <scope>provided</scope>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-core</artifactId>
@@ -92,7 +93,6 @@
             </extension>
         </extensions>
         <plugins>
-
             <plugin>
                 <!-- https://mvnrepository.com/artifact/org.xolstice.maven.plugins/protobuf-maven-plugin
                     maven编译proto文件的插件
