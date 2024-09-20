@@ -21,7 +21,6 @@
     <property name="maxFileSize" value="500MB"/>
     <property name="totalSizeCap" value="20GB"/>
 
-    <!--0. 日志格式和颜色渲染 -->
     <!-- 彩色日志依赖的渲染类 -->
     <conversionRule conversionWord="clr"
                     converterClass="com.tomoncle.app.logger.color.ColorConverter"/>
@@ -32,15 +31,13 @@
               value="%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(%5p) %magenta(${PID:- }) --- %magenta([%12.12t]) %cyan(%-40.40logger{39}) %clr(: -->){faint} %m%n%wEx"
     />
 
-    <!--    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %magenta([%thread]) %clr(%-5level) %cyan(%logger{15}) - %msg%n"/>-->
-
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">          
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>trace</level>
         </filter>
-        <encoder>       
-            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>    
-            <charset>UTF-8</charset>     
+        <encoder>
+            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 

@@ -27,14 +27,12 @@ public class Log4jApp {
 
     public static void main(String[] args) {
         for (int i = 0; i < 10; i++) {
-            new Thread(new Runnable() {
-                public void run() {
-                    logger.trace("trace");
-                    logger.debug("debug");
-                    logger.info("info");
-                    logger.warn("warn");
-                    logger.error("error");
-                }
+            new Thread(() -> {
+                logger.trace("trace");
+                logger.debug("debug");
+                logger.info("info");
+                logger.warn("warn");
+                logger.error("error");
             }).start();
         }
     }

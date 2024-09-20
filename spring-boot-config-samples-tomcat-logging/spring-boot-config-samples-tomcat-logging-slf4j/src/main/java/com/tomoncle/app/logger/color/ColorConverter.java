@@ -34,9 +34,9 @@ public class ColorConverter extends ForegroundCompositeConverterBase<ILoggingEve
             case Level.WARN_INT:
                 return ANSIConstants.YELLOW_FG;
             case Level.INFO_INT:
-                return ANSIConstants.BLUE_FG;
-            case Level.DEBUG_INT:
                 return ANSIConstants.GREEN_FG;
+            case Level.DEBUG_INT:
+                return ANSIConstants.BLUE_FG;
             case Level.TRACE_INT:
                 return ANSIConstants.BLACK_FG;
             default:
